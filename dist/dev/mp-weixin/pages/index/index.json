@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "TMUI",
+  "usingComponents": {
+    "tm-app": "../../tmui/components/tm-app/tm-app",
+    "tm-sheet": "../../tmui/components/tm-sheet/tm-sheet",
+    "tm-text": "../../tmui/components/tm-text/tm-text",
+    "tm-input": "../../tmui/components/tm-input/tm-input",
+    "tm-divider": "../../tmui/components/tm-divider/tm-divider"
+  }
+}
