@@ -1,1 +1,0 @@
-<tm-sheet wx:if="{{a}}" u-s="{{['d']}}" u-i="884b7be4-0" bind:__l="__l" u-p="{{a}}"><slot></slot></tm-sheet>
