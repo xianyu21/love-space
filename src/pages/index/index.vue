@@ -20,8 +20,22 @@
 	import tmApp from "../../tmui/components/tm-app/tm-app.vue"
 	import tmSheet from "../../tmui/components/tm-sheet/tm-sheet.vue"
 	import tmButton from "../../tmui/components/tm-button/tm-button.vue"
+	import {
+		useTmpiniaStore
+	} from '@/tmui/tool/lib/tmpinia';
+	const store = useTmpiniaStore();
 	const name = ref('')
 	const avatar = ref('')
+	// 
+	onLoad(() => {
+		console.log('加载完成', store);
+		store.$patch(state => {
+			state.tmStore.vuex_user = {}
+		})
+		console.log(store.tmStore.dark) //当前是否是暗黑
+		console.log(store.tmStore.vuex_user) //当前是否是暗黑
+		console.log('加载完成', store);
+	});
 	// 登录
 	function getUserInfo() {
 		wx.getUserProfile({
