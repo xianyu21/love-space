@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
 	const startTime = new Date(new Date().toLocaleDateString()).getTime()
 	const timeStamp = new Date().getTime()
 	// 
-	// try {
+	try {
 		//判断 当前是否已经登录
 		var signList = await db.collection('ls-sign').where({
 			'user_id': userId,
@@ -68,45 +68,45 @@ exports.main = async (event, context) => {
 			}
 		}
 		// 给用户增加积分
-		// var userResult = await transaction.collection('ls-user').doc(userId).update({
-		// 	'integral': dbCmd.inc(integral)
-		// })
+		var userResult = await transaction.collection('ls-user').doc(userId).update({
+			'integral': dbCmd.inc(integral)
+		})
 
-		// if(userResult.updated === 0){
-		// 	// 签到失败
-		// 	transaction.rollback(-100)
-		// 	return {
-		// 		success: false,
-		// 		msg: '签到失败'
-		// 	}
-		// }
-		// // 添加积分记录
-		// var signResult = await transaction.collection('wx_record').add({
-		// 	'mode': 1,
-		// 	'name': '签到奖励积分',
-		// 	'integral': integral,
-		// 	'user_id': userId,
-		// 	'time': timeStamp
-		// })
-		// if(signResult.inserted === 0){
-		// 	// 签到失败
-		// 	transaction.rollback(-100)
-		// 	return {
-		// 		success: false,
-		// 		msg: '签到失败'
-		// 	}
-		// }
-		// await transaction.commit()
-		// return {
-		// 	success: true,
-		// 	integral: integral,
-		// 	msg: '签到成功'
-		// }
-	// } catch (e) {
-	// 	await transaction.rollback()
-	// 	return {
-	// 		success: false,
-	// 		msg: e
-	// 	}
-	// }
+		if (userResult.updated === 0) {
+			// 签到失败
+			transaction.rollback(-100)
+			return {
+				success: false,
+				msg: '签到失败'
+			}
+		}
+		// 添加积分记录
+		var signResult = await transaction.collection('ls-record').add({
+			'mode': 1,
+			'name': '签到奖励积分',
+			'integral': integral,
+			'user_id': userId,
+			'time': timeStamp
+		})
+		if (signResult.inserted === 0) {
+			// 签到失败
+			transaction.rollback(-100)
+			return {
+				success: false,
+				msg: '签到失败'
+			}
+		}
+		await transaction.commit()
+		return {
+			success: true,
+			integral: integral,
+			msg: '签到成功'
+		}
+	} catch (e) {
+		await transaction.rollback()
+		return {
+			success: false,
+			msg: e
+		}
+	}
 };

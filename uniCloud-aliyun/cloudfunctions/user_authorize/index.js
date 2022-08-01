@@ -27,7 +27,6 @@ exports.main = async (event, context) => {
 			let integrals = await db.collection('ls-config').where({
 				'key': 'inviteIntegral'
 			}).get()
-
 			if (integrals.data.length > 0) {
 				const integral = parseInt(integrals.data[0].val)
 				var userList = await db.collection('ls-user').doc(event.userId).get()
@@ -60,20 +59,18 @@ exports.main = async (event, context) => {
 		})
 	}
 	// 查询最新的数据
-	db.collection('ls-user').where({
+	let result = await db.collection('ls-user').where({
 		openid: res.openid
-	}).get().then(res => {
-		if (res.data.length > 0) {
-			return {
-				success: true,
-				data: res.data[0]
-			}
-		} else {
-			return {
-				success: false,
-				msg: '用户不存在'
-			}
+	}).get()
+	if (result.data.length > 0) {
+		return {
+			success: true,
+			data: result.data[0]
 		}
-	})
-
+	} else {
+		return {
+			success: false,
+			msg: '用户不存在'
+		}
+	}
 };

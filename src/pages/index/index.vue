@@ -2,8 +2,9 @@
 	<tm-app>
 		<tm-sheet>
 			<view class="flex flex-row flex-wrap">
-				<tm-button :margin="[10, 10]" :shadow="0" label="登录" @click="getUserInfo"></tm-button>
-				<tm-button :margin="[10, 10]" :shadow="0" label="签到"></tm-button>
+				<tm-button :margin="[10, 10]" :shadow="0" :label="'登录'+signIntegral" @click="getUserInfo"></tm-button>
+				<tm-button :margin="[10, 10]" :shadow="0" :label="'签到'+inviteIntegral" @click="signClick"></tm-button>
+				{{isSign?'签到':'未签到'}}
 			</view>
 		</tm-sheet>
 	</tm-app>
@@ -17,25 +18,57 @@
 		onShow,
 		onLoad
 	} from "@dcloudio/uni-app";
-	import tmApp from "../../tmui/components/tm-app/tm-app.vue"
-	import tmSheet from "../../tmui/components/tm-sheet/tm-sheet.vue"
-	import tmButton from "../../tmui/components/tm-button/tm-button.vue"
+	import tmApp from "@/tmui/components/tm-app/tm-app.vue"
+	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
+	import tmButton from "@/tmui/components/tm-button/tm-button.vue"
+	import tmNotification from "@/tmui/components/tm-notification/tm-notification.vue"
 	import {
 		useTmpiniaStore
 	} from '@/tmui/tool/lib/tmpinia';
 	const store = useTmpiniaStore();
+
 	const name = ref('')
 	const avatar = ref('')
+	const signIntegral = ref(0) //签到获得积分
+	const inviteIntegral = ref(0) //邀请获得积分
+	const isSign = ref(false) //是否签到
+	const signShow = ref(false) // 展示 积分提示框
 	// 
 	onLoad(() => {
-		console.log('加载完成', store);
-		store.$patch(state => {
-			state.tmStore.vuex_user = {}
-		})
-		console.log(store.tmStore.dark) //当前是否是暗黑
-		console.log(store.tmStore.vuex_user) //当前是否是暗黑
-		console.log('加载完成', store);
+		//获取配置参数
+		getConfig()
+		//判断用户是否存在  存在更新用户信息
+		if (store.tmStore.vuex_user) {
+			getUser()
+		}
+
 	});
+	// 
+	async function getConfig() {
+		let config = await uniCloud.callFunction({
+			name: 'config_map',
+			data: {
+				'keys': ['signIntegral', 'inviteIntegral']
+			},
+		})
+		if (config.result.success) {
+			signIntegral.value = parseInt(config.result.data[0])
+			inviteIntegral.value = parseInt(config.result.data[1])
+		}
+	}
+	// 
+	async function getUser() {
+		let detail = await uniCloud.callFunction({
+			name: 'query_map',
+			data: {
+				dbName: "wx_user",
+				id: store.tmStore.vuex_user._id
+			},
+		})
+		store.$patch(state => {
+			state.tmStore.vuex_user = detail.result
+		})
+	}
 	// 登录
 	function getUserInfo() {
 		wx.getUserProfile({
@@ -44,7 +77,6 @@
 				name.value = res.userInfo.nickName; //昵称
 				avatar.value = res.userInfo.avatarUrl; //头像
 				// 成功后进行登录,获取code
-				console.log(name, avatar);
 				wxlogin();
 			},
 			fail(err) {
@@ -71,22 +103,21 @@
 	}
 
 	function wxloginres(code) {
-		let that = this
 		uniCloud.callFunction({
 			name: 'user_authorize',
 			data: {
 				name: name.value,
 				avatar: avatar.value,
-				mptype: 'wx',
 				code: code,
-				userId: '62e67d840d082200016150e4',
+				userId: '',
 			},
-		}).then(res => {
+		}).then(async res => {
 			if (res.result.success) {
-				console.log(res.result.data);
-				// that.$u.vuex('vuex_user', res.result.data)
-				// that.getUser()
-				// await that.getSign()
+				store.$patch(state => {
+					state.tmStore.vuex_user = res.result.data
+				})
+				await getUser()
+				await getSign()
 				uni.showToast({
 					icon: 'none',
 					mask: true,
@@ -103,18 +134,24 @@
 			}
 		})
 	}
-
-
-
-
-
-
-
-	function loginClick() {
-		signClick()
+	async function getSign() {
+		let query = await uniCloud.callFunction({
+			name: 'sign_flag',
+			data: {
+				dbName: 'ls_sign',
+				"userId": store.tmStore.vuex_user._id,
+				"startTime": new Date(new Date().toLocaleDateString()).getTime()
+			},
+		})
+		if (query.result.success) {
+			isSign.value = true
+		} else {
+			isSign.value = false
+		}
 	}
 
 	function signClick() {
+		if (isSign.value) return
 		uni.showLoading({
 			mask: true,
 			title: '签到中...'
@@ -122,11 +159,29 @@
 		uniCloud.callFunction({
 			name: 'sign_add',
 			data: {
-				"userId": ''
+				// "userId": store.tmStore.vuex_user._id,
+				"userId": '62e680242f77c40001b3fa13',
 			},
 		}).then(res => {
-			console.log(res);
 			uni.hideLoading()
+			if (res.result.success) {
+				// getUser()
+				uni.showToast({
+					icon: 'none',
+					mask: true,
+					title: '签到成功',
+					duration: 1500
+				})
+				signShow.value = true
+				isSign.value = true
+			} else {
+				uni.showToast({
+					icon: 'none',
+					mask: true,
+					title: res.result.msg,
+					duration: 1500
+				})
+			}
 		})
 
 
