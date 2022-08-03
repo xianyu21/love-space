@@ -2,7 +2,7 @@
 	"easycom": {
 		"autoscan": true,
 		"custom": {
-			"^tm-(.*)": "@/tmui/components/tm-$1/tm-$1.vue"
+			// "^tm-(.*)": "@/tmui/components/tm-$1/tm-$1.vue"
 		}
 	},
 	"pages": [
@@ -12,9 +12,58 @@
 				"navigationBarTitleText": "TMUI"
 				// "navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/indexTask/indexTask",
+			"style": {
+				"navigationBarTitleText": "TMUI"
+				
+			}
+		},
+		{
+			"path": "pages/indexExplain/indexExplain",
+			"style": {
+				"navigationBarTitleText": "TMUI"
+			}
+		},
+		{
+			"path": "pages/indexExchange/indexExchange",
+			"style": {
+				"navigationBarTitleText": "TMUI"
+			}
 		}
-
 	],
+	"tabBar": {
+		"color": "#666666",
+		"selectedColor": "#2F74F6",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabBar/kuangquanshui.png",
+				"selectedIconPath": "static/tabBar/kuangquanshui.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/indexTask/indexTask",
+				"iconPath": "static/tabBar/kuangquanshui.png",
+				"selectedIconPath": "static/tabBar/kuangquanshui.png",
+				"text": "任务"
+			},
+			{
+				"pagePath": "pages/indexExplain/indexExplain",
+				"iconPath": "static/tabBar/kuangquanshui.png",
+				"selectedIconPath": "static/tabBar/kuangquanshui.png",
+				"text": "说明"
+			},
+			{
+				"pagePath": "pages/indexExchange/indexExchange",
+				"iconPath": "static/tabBar/kuangquanshui.png",
+				"selectedIconPath": "static/tabBar/kuangquanshui.png",
+				"text": "兑换"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
