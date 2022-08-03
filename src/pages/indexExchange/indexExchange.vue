@@ -1,5 +1,5 @@
 <template>
-	<tm-app>
+	<tm-app ref="app">
 		<tm-sheet>
 			xxxxxxxxxxxxxxx
 			<!-- <view class="flex flex-row flex-wrap">
@@ -9,7 +9,7 @@
 			</view> -->
 		</tm-sheet>
 
-		<tm-sheet :padding='[0,0]' >
+		<tm-sheet>
 			<tm-text _class="pt-50 mt-50" color="#303133" label="邀请好友"></tm-text>
 			<tm-text _class="pt-50 mt-50" label="+6积分/位"></tm-text>
 		</tm-sheet>
@@ -67,13 +67,14 @@
 	import {
 		onLoad
 	} from "@dcloudio/uni-app";
+	import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 	import tmText from "@/tmui/components/tm-text/tm-text.vue"
 	import {
 		useTmpiniaStore
 	} from '@/tmui/tool/lib/tmpinia';
 	const store = useTmpiniaStore();
-
+	
 	const name = ref('')
 	const avatar = ref('')
 	const signIntegral = ref(0) //签到获得积分
@@ -82,6 +83,7 @@
 	const signShow = ref(false) // 展示 积分提示框
 	// 
 	onLoad(() => {
+		store.randomizeCounter()
 		//获取配置参数
 		getConfig()
 		//判断用户是否存在  存在更新用户信息
