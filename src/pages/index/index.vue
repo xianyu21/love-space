@@ -45,10 +45,6 @@
 		console.log(store.test);
 		console.log(store.doubleCount);
 		console.log(store.doublePlusOne);
-		console.log(store.randomizeCounter());
-		console.log(store.fetchUserPreferences);
-		console.log(store.fetchUserPreferences());
-		
 	})
 
 	
