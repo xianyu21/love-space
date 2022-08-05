@@ -12,6 +12,7 @@
 		<p>{{name}}</p>
 		<!-- 或者使用解构之后的 -->
 		<p>{{counter}}</p>
+		<p>{{preferences}}</p>
 	</div>
 </template>
 
@@ -21,21 +22,36 @@
 		computed
 	} from "vue"
 	import {
+		onLoad
+	} from "@dcloudio/uni-app";
+	import {
 		useStore
 	} from '@/stores/index.ts'
 	// 使普通数据变响应式的函数  
 	import {
 		storeToRefs
 	} from "pinia";
-
+	
 	const store = useStore()
-
 	// 结合computed获取
 	const name = computed(() => store.name)
 	// 解构并使数据具有响应式
 	const {
 		counter
 	} = storeToRefs(store);
+	onLoad(() => {
+		console.log(store);
+		console.log(storeToRefs(store));
+		console.log(store.test);
+		console.log(store.doubleCount);
+		console.log(store.doublePlusOne);
+		console.log(store.randomizeCounter());
+		console.log(store.fetchUserPreferences);
+		console.log(store.fetchUserPreferences());
+		
+	})
+
+	
 
 	// 点击 + 1;
 	function handleClick() {
@@ -63,13 +79,10 @@
 	}
 
 	function handleClick3() {
-		const store = useStore()
 		store.$reset()
-
 	}
 
 	function handleClick4() {
-		// store.randomizeCounter()
-
+		store.increase()
 	}
 </script>
