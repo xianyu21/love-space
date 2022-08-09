@@ -41,7 +41,7 @@ import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmButton from "../tm-button/tm-button.vue";
 const { proxy } = getCurrentInstance();
-
+const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
 const emits = defineEmits(["update:modelValue", "update:modelStr", "update:show", "confirm","change", "cancel", "close", "open"])
 
 const props = defineProps({
@@ -148,7 +148,16 @@ const _show = ref(props.show)
 const isConfirm = ref(false)//是否点了确认按钮。
 const _value = ref(props.defaultValue)
 const _strvalue = ref("")
-const win_bottom = uni.getWindowInfo()?.safeAreaInsets?.bottom??0
+
+
+// #ifdef APP || MP-WEIXIN
+let win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0
+// #endif
+// #ifndef APP || MP-WEIXIN
+let win_bottom = uni.getSystemInfoSync()?.safeArea?.bottom??0
+win_bottom = win_bottom>uni.getSystemInfoSync().windowHeight?0:win_bottom
+// #endif
+
 function close() {
     if (!isConfirm.value) {
         emits("cancel")
@@ -182,7 +191,7 @@ function confirm() {
     emits("update:modelValue", _value.value)
 	emits("update:modelStr", _strvalue.value)
     isConfirm.value = true;
-    proxy.$refs.drawer.close();
+    drawer.value?.close();
 }
 
 const dHeight = computed(() => {

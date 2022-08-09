@@ -550,11 +550,19 @@ export function isDate(s:string|number|Date){
  * @param icon 图标
  */
 export function toast(word:string,mask:boolean=true,icon:any='none'){
+	// #ifndef MP-ALIPAY
 	uni.showToast({
 		mask:mask,
 		title:word,
 		icon:icon
 	})
+	// #endif
+	// #ifdef MP-ALIPAY
+	uni.showToast({
+		title:word,
+		icon:icon
+	})
+	// #endif
 }
 /**
  * 获取屏幕窗口安全高度和宽度
@@ -563,10 +571,11 @@ export function toast(word:string,mask:boolean=true,icon:any='none'){
  * @return {height,width}
  */
 export function getWindow(){
-	let appsys = uni.getWindowInfo();
+
 	const sysinfo = uni.getSystemInfoSync();
+	uni.hideKeyboard()
 	let top =0;
-	let height = appsys.windowHeight;
+	let height = sysinfo.windowHeight;
 	let nowPage = getCurrentPages().pop()
 	let isCustomHeader = false;
 	for(let i=0;i<uni.$tm.pages.length;i++){
@@ -577,31 +586,31 @@ export function getWindow(){
 	}
 	// #ifdef H5
 	if (isCustomHeader) {
-		height = sysinfo.windowHeight+44
+		height  = sysinfo.windowHeight+44
 	}else{
-		top = 44
+		height  = sysinfo.windowHeight-44
 	}
 	// #endif
-	
+
 	// #ifdef APP-NVUE 
 	if(!isCustomHeader){
 		if(sysinfo.osName=="android"){
-			height = appsys.safeArea.height - 44 - appsys.safeAreaInsets.bottom
+			height = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44 - (sysinfo.safeAreaInsets?.bottom??0)
 		}else{
-			height = appsys.safeArea.height - 44
+			height = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
 		}
 	}else{
-		height= appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+		height = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
 	}
 	// #endif
 	// #ifdef APP-VUE 
 	if(!isCustomHeader){
-		height = appsys.safeArea.height - 44
+		height = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
 	}else{
-		height = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+		height = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
 	}
 	// #endif
-	return {height:height,width:appsys.windowWidth,top:top};
+	return {height:height,width:sysinfo.windowWidth,top:top};
 }
 type openUrlType = "navigate"|"redirect"|"reLaunch"|"switchTab"|"navigateBack"
 /**

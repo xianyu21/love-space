@@ -92,7 +92,7 @@ const props = defineProps({
 	//弹出的动画时间单位ms.
 	duration: {
 		type: Number,
-		default: 300
+		default: 160
 	},
 	//是否允许点击遮罩关闭
 	overlayClick: {
@@ -175,7 +175,6 @@ let timerIdth = NaN
 let timerIdth_flas = false
 let _show = ref(props.show);
 function debounce(func: Function, wait = 500, immediate = false) {
-
 	// 清除定时器
 	if (!isNaN(timerId)) clearTimeout(timerId);
 	// 立即执行，此类情况一般用不到
@@ -223,7 +222,7 @@ let { windowWidth, windowHeight, windowTop, safeArea, statusBarHeight, titleBarH
 syswidth.value = windowWidth;
 sysheight.value = windowHeight;
 // #ifdef APP || MP
-sysheight.value = safeArea.height;
+sysheight.value = safeArea?.height??windowHeight;
 // #endif
 // #ifdef H5
 sysheight.value = windowHeight;
@@ -308,19 +307,18 @@ function ok() {
 	if (props.disabled) return;
 	debounce(() => {
 		emits("ok")
-		close()
-	}, 500, true)
+		closeFun()
+	}, props.duration, true)
 }
 function cancel() {
 	if (props.disabled) return;
 	debounce(() => {
 		emits("cancel")
-		close()
-	}, 500, true)
+		closeFun()
+	}, props.duration, true)
 }
 function OverLayOpen(){
 	debounce(() => {
-		
 		nextTick(function () {
 			if (!drawerANI.value) return;
 			
@@ -331,7 +329,7 @@ function OverLayOpen(){
 				flag.value = false;
 			}, props.duration)
 		})
-	}, 500, true)
+	},  props.duration, true)
 }
 function opens() {
 	if (props.disabled) return;

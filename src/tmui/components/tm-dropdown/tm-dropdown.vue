@@ -52,7 +52,7 @@
 				]"
 				ref="content"
 				>
-					<tm-translate ref="aniDom" reverse :name="tarnslateName" :duration="120" :autoPlay="!isNvue">
+					<tm-translate ref="aniDom" reverse :name="tarnslateName" :duration="180" :autoPlay="!isNvue">
 						<view class="flex flex-col " :class="[
 							props.position=='tc'?'flex-col-center-center':'',
 							props.position=='tl'?'flex-col-top-start':'',
@@ -106,7 +106,7 @@
 								:linearDeep="props.linearDeep"
 								:width="props.width"
 								:margin="[0,0]">
-								<view style="height:8rpx"></view>
+								<view style="height:24rpx"></view>
 								<view hover-class="opacity-7" @click.stop="onclick(index,item)" 
 								v-for="(item,index) in listData"  :key="index" class="flex-1 flex px-24  py-16" >
 									<view class="flex-row flex pb-12 flex-between ">
@@ -188,7 +188,7 @@
 								:linearDeep="props.linearDeep"
 								:width="props.width"
 								:margin="[0,0]">
-									<view style="height:8rpx"></view>
+									<view style="height:24rpx"></view>
 									<view hover-class="opacity-7" @click.stop="onclick(index,item)" 
 									v-for="(item,index) in listData"  :key="index" class="flex-1 flex px-24  py-16" >
 										<view class="flex-row flex pb-12 flex-between ">
@@ -252,6 +252,7 @@
 	// #endif
 	const emits = defineEmits(['click'])
 	const {proxy} = getCurrentInstance();
+	const aniDom = ref<InstanceType<typeof tmTranslate> | null>(null)
 	const props = defineProps({
 		...custom_props,
 		border: {
@@ -376,7 +377,7 @@
 		clearTimeout(timeid.value)
 		if(show.value==true){
 			timeid.value = setTimeout(function(){
-				proxy.$refs.aniDom.play();
+				aniDom.value?.play();
 			},80)
 		}
 		// #endif

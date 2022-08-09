@@ -35,9 +35,9 @@
           </view>
         </view>
         <view class="flex-1 flex-row flex-row-center-end" style="width: 0px">
-          <view class="flex flex-1 flex-row flex-row-center-end pr-12">
+          <view class="flex flex-1 flex-row flex-row-center-end pr-12 flex-nowrap nowrap">
             <slot name="rightText">
-              <tm-text :color="_computedValue.rightColor" v-if="_computedValue.rightText" :fontSize="_computedValue.rightTextSize"
+              <tm-text _class="nowrap" :color="_computedValue.rightColor" v-if="_computedValue.rightText" :fontSize="_computedValue.rightTextSize"
                 :label="_computedValue.rightText"></tm-text>
             </slot>
           </view>

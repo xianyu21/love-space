@@ -75,6 +75,7 @@
 import { showOpts } from "./interface";
 	const emits = defineEmits(['click','close'])
 	const {proxy} = getCurrentInstance();
+	const tranmatioan = ref<InstanceType<typeof tmTranslate> | null>(null)
 	const props = defineProps({
 		...custom_props,
 		followTheme:{
@@ -148,8 +149,8 @@ import { showOpts } from "./interface";
 					showDom.value = true;
 				}
 				nextTick(function(){
-					if(proxy.$refs?.tranmatioan){
-						proxy.$refs.tranmatioan.play();
+					if(tranmatioan.value){
+						tranmatioan.value?.play();
 					}
 				})
 			}
@@ -162,8 +163,8 @@ import { showOpts } from "./interface";
 				showDom.value = true;
 			}
 			nextTick(function(){
-				if(proxy.$refs?.tranmatioan){
-					proxy.$refs.tranmatioan.play();
+				if(tranmatioan.value){
+					tranmatioan.value?.play();
 				}
 			})
 		}
@@ -261,8 +262,8 @@ import { showOpts } from "./interface";
 			reverse.value=true;
 			handleClose.value=false;
 			nextTick(function(){
-				if(proxy.$refs?.tranmatioan){
-					proxy.$refs.tranmatioan.play();
+				if(tranmatioan.value){
+					tranmatioan.value?.play();
 				}
 			})
 			return;
@@ -276,8 +277,8 @@ import { showOpts } from "./interface";
 		if(!isEnd.value) return
 		reverse.value=false;
 		handleClose.value = true;
-		if(proxy.$refs?.tranmatioan){
-			nextTick(()=>proxy.$refs.tranmatioan.play())
+		if(tranmatioan.value){
+			nextTick(()=>tranmatioan.value?.play())
 		}else{
 			showDom.value = false;
 			reverse.value=true;

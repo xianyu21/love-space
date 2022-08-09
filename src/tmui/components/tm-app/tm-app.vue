@@ -138,23 +138,23 @@
 		view_height.value  = sysinfo.windowHeight
 	}
 	// #endif
-	let appsys = uni.getWindowInfo();
+
 	// #ifdef APP-NVUE 
 	if(!isCustomHeader){
 		if(sysinfo.osName=="android"){
-			view_height.value = appsys.safeArea.height - 44 - appsys.safeAreaInsets.bottom
+			view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44 - (sysinfo.safeAreaInsets?.bottom??0)
 		}else{
-			view_height.value = appsys.safeArea.height - 44
+			view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
 		}
 	}else{
-		view_height.value = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+		view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
 	}
 	// #endif
 	// #ifdef APP-VUE 
 	if(!isCustomHeader){
-		view_height.value = appsys.safeArea.height - 44
+		view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
 	}else{
-		view_height.value = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+		view_height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
 	}
 	// #endif
 
@@ -214,10 +214,12 @@
 		// #endif
 
 		if (isDark.value) {
+			// #ifndef MP-ALIPAY
 			uni.setNavigationBarColor({
 				backgroundColor: appConfig.value.theme,
 				frontColor: '#ffffff'
 			})
+			// #endif
 			uni.setTabBarStyle({
 				backgroundColor: '#000000',
 				borderStyle: '#1a1a1a',
@@ -225,10 +227,13 @@
 				selectedColor:uni.$tm.tabBar.selectedColor||tmcomputed.value.textColor
 			}).catch(e=>{})
 		} else {
+			
+			// #ifndef MP-ALIPAY
 			uni.setNavigationBarColor({
 				backgroundColor: props.navbar.background,
 				frontColor: props.navbar.fontColor
 			}).catch(e=>{})
+			// #endif
 			uni.setTabBarStyle({
 				backgroundColor: uni.$tm.tabBar.backgroundColor||props.navbar.background,
 				borderStyle: uni.$tm.tabBar.borderStyle||'#888888',
@@ -268,7 +273,7 @@
 		setDark: setDark
 	});
 	//监视全局主题并立即执行。
-	setAppStyle()
+
 	onBeforeMount(() => setAppStyle())
 	watch([()=>tmcfg.value.color, isDark], () => {
 		isSetThemeOk.value = false;

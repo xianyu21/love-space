@@ -237,9 +237,15 @@ watch(tmTabbarItemActive, () => {
 	if (!tmTabbarItemAutoSelect.value) {
 		// 非自动选中，通过父组件的active来选中当前。
 		if (tmTabbarItemList.value[tmTabbarItemActive.value] == uid) {
-			_active.value = true
+			nextTick(()=>{
+				_active.value = true
+			})
+			
 		} else {
-			_active.value = false
+			nextTick(()=>{
+				_active.value = false
+			})
+			
 		}
 	}
 })
@@ -263,6 +269,7 @@ async function itemClick() {
 		if (parent) {
 			parent.setNowurl(props.url, uid)
 		}
+
 	}
 	nextTick(() => {
 		setActive()

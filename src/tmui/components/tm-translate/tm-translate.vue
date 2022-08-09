@@ -3,7 +3,7 @@
 			computedHeight ? { height: computedHeight } : '', 
 			computedWidth ? { width: computedWidth } : '',customCSSStyle]">
 		<view v-if="isLoadEl" ref="nvueElAni" :animation="animationData" :class="[
-			'flex-col flex',
+			'flex-col flex trani',
 			animationName+reverseAniPrefxname,customClass
 		]" >
 			<slot name="default"></slot>
@@ -265,8 +265,8 @@
 							element: elDom,
 							property: 'transform.scale',
 							expression: computedReverse.value ?
-								`linear(t,1,-1,${durationtos.value})` :
-								`linear(t,0,1,${durationtos.value})`
+								`linear(t,1,-0.7,${durationtos.value})` :
+								`linear(t,0.7,0.3,${durationtos.value})`
 						},
 						{
 							element: elDom,
@@ -307,8 +307,8 @@
 		nextTick(function() {
 			var animation = uni.createAnimation({
 				duration: durationtos.value,
-				timingFunction: 'linear',
-				delay: 40
+				timingFunction: 'ease',
+				delay: 30
 			});
 			
 			clearTimeout(tmid.value)
@@ -338,7 +338,7 @@
 					duration: 0
 				});
 			} else if (animationName.value == 'zoom') {
-				let scale = computedReverse.value ? [1, 1] : [0, 0];
+				let scale = computedReverse.value ? [1, 1] : [0.7, 0.7];
 				let opacity = computedReverse.value ? 1 : 0;
 				animation.scale(...scale).opacity(opacity).step({
 					duration: 0
@@ -366,7 +366,7 @@
 					let opacity = computedReverse.value ? '0' : '101%';
 					animation.translateX(opacity).step();
 				} else if (animationName.value == 'zoom') {
-					let scale = computedReverse.value ? [0, 0] : [1, 1];
+					let scale = computedReverse.value ? [0.7, 0.7] : [1, 1];
 					let opacity = computedReverse.value ? 0 : 1;
 					animation.scale(...scale).opacity(opacity).step();
 				}
@@ -393,7 +393,7 @@
 	}
 
 	.up {
-		transform: translateY(0%);
+		transform: translate3d(0,0%0);
 	}
 
 	.up-reverse {
@@ -425,7 +425,7 @@
 	}
 
 	.zoom {
-		transform: scale(0, 0);
+		transform: scale(0.7, 0.7);
 		opacity: 0;
 	}
 
@@ -433,4 +433,5 @@
 		transform: scale(1, 1);
 		opacity: 1;
 	}
+
 </style>

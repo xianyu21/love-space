@@ -1,15 +1,16 @@
 <template>
-    <view class="tm-segtab relative flex flex-col" ref="tm-segtab" :style="{ width: (props.width+props.gutter*2) + 'rpx' }">
+    <view  class="tm-segtab relative flex flex-col" :class="[`round-${props.round}`]" ref="tm-segtab" :style="{ width: (props.width+props.gutter*2) + 'rpx' }">
         <tm-sheet
+        :round="props.round"
         :border="props.border"
         :linear="props.linear"
         :linear-deep="props.linearDeep"
-        :no-level="true" :round="2" :height="props.height" :color="props.bgColor" :width="props.width"
+        :no-level="true"  :height="props.height" :color="props.bgColor" :width="props.width"
             _class="flex-row relative" :padding="[props.gutter, props.gutter]" :margin="[0, 0]">
             <!-- #ifdef APP-NVUE -->
             <view v-if="_cId!==''" ref="tmBgEl" class="relative flex flex-row " :style="[{ width: (leftWidth+1) + 'px' }]">
                 <!-- left:leftPos+'px',width:leftWidth+'px' -->
-                <tm-sheet :follow-dark="props.followDark" :round="2"  class="flex-1" _class="flex-1" :color="props.color" :margin="[0, 0]"
+                <tm-sheet :follow-dark="props.followDark" :round="props.round"  class="flex-1" _class="flex-1" :color="props.color" :margin="[0, 0]"
                     :padding="[0, 0]"></tm-sheet>
             </view>
             <!-- #endif -->
@@ -17,7 +18,7 @@
             <view v-if="_cId!==''" class="relative flex flex-row  bgbtnpos"
                 :style="[{ transform: 'translateX(' + leftPos + 'px)', width: (leftWidth+1) + 'px' }]">
                 <!-- left:leftPos+'px',width:leftWidth+'px' -->
-                <tm-sheet :follow-dark="props.followDark" :round="2" class="flex-1 flex flex-row" parenClass="flex-1" _class="flex-1 flex flex-row" :color="props.color" :margin="[0, 0]"
+                <tm-sheet :follow-dark="props.followDark" :round="props.round" class="flex-1 flex flex-row" parenClass="flex-1" _class="flex-1 flex flex-row" :color="props.color" :margin="[0, 0]"
                     :padding="[0, 0]"></tm-sheet>
             </view>
             <!-- #endif -->
@@ -55,6 +56,10 @@ const emits = defineEmits(["update:modelValue", "change", "click"])
 
 const props = defineProps({
     ...custom_props,
+    round: {
+        type: Number,
+        default: 2
+    },
     width: {
         type: Number,
         default: 600

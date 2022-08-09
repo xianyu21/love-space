@@ -49,7 +49,7 @@ import {
 	getCurrentInstance,
 	computed,
 	ref,
-	inject,watch, PropType
+	inject,watch, PropType,ComponentInternalInstance
 } from 'vue'
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "..//tm-text/tm-text.vue";
@@ -58,9 +58,10 @@ import tmTranslate from "../tm-translate/tm-translate.vue";
 import {
 	custom_props,
 } from '../../tool/lib/minxs';
+const aniplay = ref<InstanceType<typeof tmTranslate> | null>(null)
 const {
 	proxy
-} = getCurrentInstance();
+} = <ComponentInternalInstance >getCurrentInstance();
 const emits = defineEmits(['load', 'error', 'click', 'delete','close'])
 const props = defineProps({
 	...custom_props,
@@ -228,8 +229,8 @@ async function del() {
 		emits('delete', props.src);
 		return;
 	}
-	if (proxy.$refs?.aniplay) {
-		proxy.$refs.aniplay.play();
+	if (aniplay.value?.play) {
+		aniplay.value?.play();
 	} else {
 		isRmove.value = true;
 		emits("close", props.src)

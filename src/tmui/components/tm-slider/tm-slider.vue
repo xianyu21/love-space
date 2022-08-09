@@ -62,6 +62,9 @@ import sliderMask from "./slider-mask.vue";
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin('dom')
 // #endif
+const btn0 = ref<InstanceType<typeof sliderButton> | null>(null)
+const btn1 = ref<InstanceType<typeof sliderButton> | null>(null)
+
 const {proxy} = getCurrentInstance();
 const emits = defineEmits(["update:modelValue",'change'])
 const props = defineProps({

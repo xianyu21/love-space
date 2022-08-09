@@ -8,13 +8,13 @@
   <view :render-whole="true" v-if="_blue_sheet" :blurEffect="_blurEffect" @click="emits('click', $event)"
     @longpress="longpress" @touchend="touchend" @touchstart="touchstart" @touchcancel="touchcancel"
     @mousedown="mousedown" @mouseup="mouseup" @mouseleave="mouseleave" :class="[
-      'flex flex-col', parenClass_p,
+      'flex flex-col noNvueBorder', parenClass_p,
       `mx-${_margin[0]}`,
       `my-${_margin[1]}`,
       `px-${_padding[0]}`,
       `py-${_padding[1]}`,
       isLongPress ? props.hoverClass : '',
-      props.hoverClass != '' && props.hoverClass != 'none' ? 'pointer' : '',
+	   props.hoverClass != '' && props.hoverClass != 'none' ? 'webpc':'',
       !isDisabledRoundAndriod ? `round-${props.round}` : '',
     ]" :style="[
   _height ? { height: _height + (_padding[1]*2) + props.unit } : '',
@@ -25,7 +25,7 @@
   !_transprent && _blur ? { backdropFilter: 'blur(6px)' } : '',
   customCSSStyle,
 ]">
-    <view :render-whole="true" :class="['flex  flex-col flex-1', customClass]" :style="contStyle_p">
+    <view :render-whole="true" :class="['flex noNvueBorder flex-col flex-1', customClass]" :style="contStyle_p">
       <slot></slot>
     </view>
   </view>
@@ -196,6 +196,7 @@ function touchstart(e: Event) {
 }
 function touchend(e: Event) {
   isLongPress.value = false;
+  console.log(isLongPress.value)
   emits('touchend', e)
 }
 function touchcancel(e: Event) {
@@ -245,13 +246,13 @@ provide("appTextColor", textColor);
 
 <style scoped>
 /* #ifdef H5 */
-.pointer {
-  cursor: pointer;
+.webpc{
+	cursor: pointer;
 }
-
-.pointer:hover {
-  opacity: 0.7;
+/* #endif */
+/* #ifndef APP-NVUE */
+.noNvueBorder{
+	box-sizing: border-box;
 }
-
 /* #endif */
 </style>

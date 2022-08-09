@@ -21,6 +21,7 @@ import { useTmpiniaStore } from '../../tool/lib/tmpinia';
 const store = useTmpiniaStore();
 const emits=defineEmits(["change","confirm","update:show","update:modelValue"])
 const {proxy} = getCurrentInstance();
+const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
 const props = defineProps({
     ...custom_props,
 	followTheme: {
@@ -70,6 +71,28 @@ const _typemodel = computed(()=>props.type)
 watch(()=>props.show,()=>{
 	showPop.value = props.show;
 })
+let timerId = NaN;
+
+function debounce(func: Function, wait = 200, immediate = false) {
+	// 清除定时器
+	if (!isNaN(timerId)) clearTimeout(timerId);
+	// 立即执行，此类情况一般用不到
+
+	if (immediate) {
+		var callNow = !timerId;
+		timerId = setTimeout(() => {
+			timerId = NaN;
+		}, wait);
+
+		if (callNow) typeof func === "function" && func();
+	} else {
+		// 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+		timerId = setTimeout(() => {
+			typeof func === "function" && func();
+		}, wait);
+	}
+}
+
 function drawerClose(){
 	emits('update:show',false)
 }
@@ -87,11 +110,23 @@ function change(){
 	// #endif
 }
 function confirm(){
-	emits("confirm",toRaw(_value.value))
-	proxy.$refs.drawer.close()
+	debounce(()=>{
+		emits("confirm",toRaw(_value.value))
+	
+		drawer.value?.close()
+	},250,true)
+	
 }
 
-const win_bottom = uni.getSystemInfoSync().safeAreaInsets.bottom
+
+// #ifdef APP || MP-WEIXIN
+let win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0
+// #endif
+// #ifndef APP || MP-WEIXIN
+let win_bottom = uni.getSystemInfoSync()?.safeArea?.bottom??0
+win_bottom = win_bottom>uni.getSystemInfoSync().windowHeight?0:win_bottom
+// #endif
+
 const dHeight = computed(() => {
     
     return 520+win_bottom

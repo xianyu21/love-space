@@ -151,6 +151,7 @@ import { getCurrentInstance, computed, ref, provide, inject, onUpdated, onMounte
 const dom = uni.requireNativePlugin('dom')
 // #endif
 const { proxy } = getCurrentInstance();
+const aniDom = ref<InstanceType<typeof tmTranslate> | null>(null)
 const props = defineProps({
 	...custom_props,
 	shadow:{
@@ -251,7 +252,7 @@ watch(() => show.value, () => {
 	clearTimeout(timeid.value)
 	if (show.value == true) {
 		setTimeout(function () {
-			proxy.$refs.aniDom.play();
+			tmTranslate.value?.play();
 		}, 80)
 	}
 	// #endif

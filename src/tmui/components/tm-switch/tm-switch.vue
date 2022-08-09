@@ -17,12 +17,12 @@
 	:_class="['flex relative flex-col',props.disabled?'opacity-4':'']" 
 	:text="_value?false:props.text"
 	:padding="[4,4]" :margin="props.margin">
-		<view :userInteractionEnabled="false" class="flex flex-row flex-betwwen" 
+		<view :userInteractionEnabled="false"  class="flex flex-row flex-between " 
 		:style="[{width:viewSize.coenteWidth+'rpx',height:viewSize.innerHeight+'rpx'}]">
 			<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[0]"></tm-text></view>
 			<view class="flex-1 flex-row flex-row-center-center"><tm-text :font-size="viewSize.fontSize" :label="props.label[1]"></tm-text></view>
 		</view>
-		<view :userInteractionEnabled="false" :class="['absolute base',_value?'on':'off',]" 
+		<view :userInteractionEnabled="false" :class="['absolute base nvue',_value?'on':'off',]" 
 		ref="switch"
 		:style="{
 			width:viewSize.innerWidth+'rpx',
@@ -353,7 +353,7 @@ watch(tmFormFun,()=>{
 /* #ifndef APP-NVUE */
 	.base{
 		transform:translateX(0%);
-		transition: 0.2s linear;
+		transition: 0.2s ease;
 		left: 0;
 	}
 	.on{

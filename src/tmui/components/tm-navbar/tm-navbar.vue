@@ -9,6 +9,7 @@
 				:_class="_class"
 				:_style="_style"
 				:followTheme="props.followTheme"
+				:follow-dark="props.followDark"
 				:dark="props.dark"
 				:round="props.round"
 				:shadow="props.shadow"
@@ -30,8 +31,10 @@
 				
 				<view class="flex flex-row flex-1 flex-row flex-row-center-betweent ">
 					<view class="flex-row flex flex-row-center-start pl-24" :style="{width:_leftWidth+'rpx'}">
-						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer" :color="_homeColor" @click="goback" v-if="_pages>1&&props.hideBack" name="tmicon-angle-left"></tm-icon>
-						<tm-icon :unit="props.unit" _class="pointer" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="props.iconFontSize" name="tmicon-md-home"></tm-icon>
+						<!-- #ifndef MP-ALIPAY -->
+						<tm-icon :unit="props.unit" :font-size="props.iconFontSize" _class="pointer pb-12 pt-12 pr-12" :color="_homeColor" @click="goback" v-if="_pages>1&&props.hideBack" name="tmicon-angle-left"></tm-icon>
+						<tm-icon :unit="props.unit" _class="pointer  pb-12 pt-12 pr-12" @click="backhome" v-if="_pages==1&&!hideHome" :color="_homeColor" :font-size="props.iconFontSize" name="tmicon-md-home"></tm-icon>
+						<!-- #endif -->
 						<slot name="left"></slot>
 					</view>
 					<view class=" flex flex-row-center-center" :style="{width:contentwidth+'px'}">
@@ -211,7 +214,6 @@
 	
 	const goback = ()=>{
 		debounce(async ()=>{
-			console.log(112)
 			if (typeof props.beforeBack === 'function') {
 				let p = await props.beforeBack();
 				if(typeof p === 'function'){

@@ -69,7 +69,7 @@ ComponentInternalInstance
 		},
 		duration:{
 			type:Number,
-			default:300
+			default:200
 		},
 	});
 	const emits = defineEmits(['click', 'open', 'close', 'update:show']);
@@ -86,7 +86,7 @@ ComponentInternalInstance
 	const sysinfo = uni.getSystemInfoSync();
 	width.value = sysinfo.windowWidth;
 	height.value = sysinfo.windowHeight;
-
+	uni.hideKeyboard();
 	let nowPage = getCurrentPages().pop()
 	let isCustomHeader = false;
 	for(let i=0;i<uni.$tm.pages.length;i++){
@@ -104,25 +104,26 @@ ComponentInternalInstance
 		top.value = 44
 	}
 	// #endif
-	let appsys = uni.getWindowInfo();
+	
 	// #ifdef APP-NVUE 
 	if(!isCustomHeader){
 		if(sysinfo.osName=="android"){
-			height.value = appsys.safeArea.height - 44 - appsys.safeAreaInsets.bottom
+			height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44 - (sysinfo.safeAreaInsets?.bottom??0)
 		}else{
-			height.value = appsys.safeArea.height - 44
+			height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
 		}
 	}else{
-		height.value = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+		height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
 	}
+	// #endif
 	// #ifdef APP-VUE 
 	if(!isCustomHeader){
-		height.value = appsys.safeArea.height - 44
+		height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
 	}else{
-		height.value = appsys.safeArea.height + appsys.statusBarHeight + appsys.safeAreaInsets.bottom
+		height.value = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
 	}
 	// #endif
-	// #endif
+
 	let timerId = NaN;
 	
 	const animationData = ref(null)
@@ -157,6 +158,7 @@ ComponentInternalInstance
 	}
 	
 	function close(e:Event) {
+
 		try{
 			e.stopPropagation()
 			e.stopImmediatePropagation()
@@ -176,6 +178,9 @@ ComponentInternalInstance
 		},250,true)
 	}
 	function open(off:boolean) {
+		if(off==true){
+			uni.hideKeyboard()
+		}
 		// #ifndef APP-PLUS-NVUE
 		fadeInVue(off);
 		// #endif
@@ -204,7 +209,7 @@ ComponentInternalInstance
 						  backgroundColor:bgColor_rp.value,
 						  opacity:0
 					  },
-					  duration: props.duration, //ms
+					  duration: props.duration||1, //ms
 					  timingFunction: 'ease',
 					  delay: 0 //ms
 				  },()=>{
@@ -213,7 +218,7 @@ ComponentInternalInstance
 					  emits('update:show', false);
 					  // isAniing.vale = false;
 				  })
-			}, props.duration);
+			}, props.duration||1);
 			
 		}else{
 			showMask.value = off;
@@ -226,7 +231,7 @@ ComponentInternalInstance
 						  backgroundColor:bgColor_rp.value,
 						  opacity:1
 					  },
-					  duration: props.duration, //ms
+					  duration: props.duration||1, //ms
 					  timingFunction: 'ease',
 					  delay: 0 //ms
 				  },()=>{
@@ -241,7 +246,7 @@ ComponentInternalInstance
 	function fadeInVue(off = false) {
 		debounce(function(){
 			let animation = uni.createAnimation({
-				duration: props.duration,
+				duration: props.duration||1,
 				timingFunction: 'ease',
 				delay: 0
 			});
@@ -257,7 +262,7 @@ ComponentInternalInstance
 				showMask.value=off
 				emits('open');
 			}
-		},props.duration,false)
+		},props.duration||1,false)
 		
 	}
 	watch(()=>props.show,(newval)=>{
@@ -271,9 +276,14 @@ ComponentInternalInstance
 	
 	.blurbg{
 		/* #ifndef APP-PLUS-NVUE */ 
-		/* backdrop-filter: blur(4px); */
+		backdrop-filter: blur(4px);
 		/* #endif */ 
+		/* #ifdef MP-QQ */
+		opacity: 1;
+		/* #endif */
+		/* #ifndef MP-QQ */
 		opacity: 0;
+		/* #endif */
 	}
 
 </style>

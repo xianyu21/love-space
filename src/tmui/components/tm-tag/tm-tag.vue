@@ -3,6 +3,7 @@
 		<tm-translate @end="aniEnd" ref="anitag" name="zoom" reverse :autoPlay="false">
 			
 			<tm-sheet
+			hover-class="opacity-6"
 			@click="onclick"
 			:transprent="props.transprent"
 			:color="props.color"
@@ -162,7 +163,8 @@
 		}
 	});
 	const emits = defineEmits(['click','close','change','update:checked']);
-	const {proxy} = getCurrentInstance();
+	
+	const anitag = ref<InstanceType<typeof tmTranslate> | null>(null)
 	//自定义样式：
 	const customCSSStyle = computed(()=>computedStyle(props));
 	//自定类
@@ -251,8 +253,8 @@
 		if(loading.value) return;
 		e.stopPropagation();
 		emits('close');
-		if(proxy.$refs['anitag']){
-			proxy.$refs.anitag.play();
+		if(anitag.value){
+			anitag.value.play();
 		}else{
 			show.value = false
 		}

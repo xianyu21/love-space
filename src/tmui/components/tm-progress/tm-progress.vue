@@ -35,8 +35,12 @@
 				:style="{ width: `${props.width}rpx`, height: `${props.semicircle ? props.width / 2 + 16 : props.width}rpx` }">
 			</gcanvas>
 			<!-- #endif -->
-			<!-- #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ -->
+			<!-- #ifdef MP-WEIXIN  || MP-QQ -->
 			<canvas type="2d" id="canvasId" canvas-id="canvasId" class="canvas"
+				:style="{ width: `${props.width}rpx`, height: `${props.semicircle ? props.width / 2 + 16 : width}rpx` }"></canvas>
+			<!-- #endif -->
+			<!-- #ifdef MP-ALIPAY -->
+			<canvas type="2d" :id="canvasId" :canvas-id="canvasId" class="canvas"
 				:style="{ width: `${props.width}rpx`, height: `${props.semicircle ? props.width / 2 + 16 : width}rpx` }"></canvas>
 			<!-- #endif -->
 			<!-- #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ || APP-NVUE -->
@@ -51,7 +55,8 @@
 			
 			]" class="relative absolute l-0 t-0 flex flex-col" :class="[!props.semicircle ? 'flex-center' : '']">
 				<cover-view :style="[{ fontSize: props.fontSize + 'rpx', color: isDark ? darkcolor : txtcolor }]">
-					{{ props.percent + props.percentSuffix }}</cover-view>
+					{{ props.percent + props.percentSuffix }}
+				</cover-view>
 			</cover-view>
 			<!-- #endif -->
 			<!-- #ifdef APP-NVUE -->
@@ -172,9 +177,10 @@ const props = defineProps({
 	}
 })
 const canvasId = ref("canvasId")
-// #ifndef MP-WEIXIN || MP-ALIPAY || MP-QQ
-canvasId.value = "tm" + uni.$tm.u.getUid(5);
+// #ifndef MP-WEIXIN || MP-QQ
+canvasId.value = "tm" + String(new Date().getTime());
 // #endif
+console.log(canvasId.value)
 let ctx:UniApp.CanvasContext;
 const shadow_pr = computed(() => props.shadow * 4)
 // 设置响应式全局组件库配置表。
@@ -238,12 +244,26 @@ function appvueH5Other() {
 function MpWeix_init() {
 	if (props.model != 'circle') return;
 	const query = uni.createSelectorQuery().in(vnodeCtx)
+	
+	
+	
+	// #ifdef MP-ALIPAY
+	query.select('#'+canvasId.value).node().exec((res2) => {
+	    const canvas = res2[0].node;
+		let ctxvb:UniApp.CanvasContext = canvas.getContext('2d');
+		ctx = ctxvb;
+		drawNvue_draw();
+	})
+	// #endif
+	// #ifdef MP-WEIXIN || MP-QQ
 	query.select('#canvasId')
 		.fields({
 			node: true,
-			size: true
+			size: true,
+			context:true
 		})
 		.exec((res) => {
+			// #ifndef MP-QQ
 			const canvas = res[0].node
 			const ctxvb = canvas.getContext('2d')
 			const dpr = uni.getSystemInfoSync().pixelRatio
@@ -252,7 +272,14 @@ function MpWeix_init() {
 			ctxvb.scale(dpr, dpr)
 			ctx = ctxvb;
 			drawNvue_draw();
+			// #endif
+			// #ifdef MP-QQ
+			ctx = res[0].context
+			otherDraw();
+			// #endif
 		})
+	// #endif
+	
 }
 function drawNvue_init() {
 	if (props.model != 'circle') return;
@@ -350,6 +377,7 @@ function otherDraw() {
 }
 
 function drawNvue_draw() {
+
 	if (props.model != 'circle') return;
 	let width = uni.upx2px(props.width);
 	let center = {
@@ -384,6 +412,7 @@ function drawNvue_draw() {
 	}
 	ctx.stroke();
 	ctx.closePath();
+	
 	// #ifdef APP-NVUE
 	ctx.clearRect(0, 0, props.width, props.width)
 	// #endif
@@ -408,11 +437,12 @@ function drawNvue_draw() {
 	// #ifdef MP-WEIXIN || MP-ALIPAY || MP-QQ
 	//如果是渐变
 	if (props.linear) {
-		var gradient = ctx.createLinearGradient(props.width / 2, 0, props.width / 2, props.width);
+		var gradient = ctx.createLinearGradient(Math.ceil(props.width / 2), 0, Math.ceil(props.width / 2), props.width);
 		gradient.addColorStop(0, c.gradientColor[0]);
 		gradient.addColorStop(1, c.gradientColor[1]);
 		ctx.strokeStyle = gradient;
 		ctx.fillStyle = gradient;
+		
 		ctx.shadowColor = c.gradientColor[0];
 	} else {
 		ctx.strokeStyle = activeColor;
@@ -449,4 +479,9 @@ function drawNvue_draw() {
 	transition-timing-function: ease-in-out;
 	transition-property: width;
 }
+/* #ifndef APP-NVUE */
+cover-view{
+	background: transparent;
+}
+/* #endif */
 </style>

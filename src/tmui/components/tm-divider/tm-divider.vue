@@ -8,7 +8,7 @@
 				:class="[`my-${props.margin[1]}`, align == 'left' ? 'flex-2' : '', align == 'right' ? 'flex-10' : '', align == 'center' ? 'flex-1' : '']">
 			</view>
 			<view :class="[(isDark ? 'opacity-4' : '')]">
-				<tm-text :fontSize="26" :dark="isDark" :followTheme="props.followTheme" :color="props.fontColor"
+				<tm-text :fontSize="props.fontSize" :dark="isDark" :followTheme="props.followTheme" :color="props.fontColor"
 					:label="props.label" :_class="['mx-32']"></tm-text>
 			</view>
 			<view :style="[tmcomputed ? { backgroundColor:(props.realColor?tmcomputed.color:tmcomputed.border), height: props.border + 'rpx' } : '']"
@@ -49,6 +49,10 @@ const props = defineProps({
 	fontColor:{
 		type: String,
 		default: 'grey-1'
+	},
+	fontSize:{
+		type: Number,
+		default: 26
 	},
 	vertical: {
 		type: [Boolean],
