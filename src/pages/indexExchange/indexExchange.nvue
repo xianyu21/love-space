@@ -1,36 +1,27 @@
 <template>
 	<tm-app ref="app">
 		<tm-sheet>
-			xxxxxxxxxxxxxxx
-			<!-- <view class="flex flex-row flex-wrap">
+			<view class="flex flex-row flex-wrap">
 				<tm-button :margin="[10, 10]" :shadow="0" :label="'登录'+signIntegral" @click="getUserInfo"></tm-button>
 				<tm-button :margin="[10, 10]" :shadow="0" :label="'签到'+inviteIntegral" @click="signClick"></tm-button>
 				{{isSign?'签到':'未签到'}}
-			</view> -->
+			</view>
 		</tm-sheet>
-
-		<tm-sheet>
-			<tm-text _class="pt-50 mt-50" color="#303133" label="邀请好友"></tm-text>
-			<tm-text _class="pt-50 mt-50" label="+6积分/位"></tm-text>
-		</tm-sheet>
-
-
-
-		<!-- <tm-sheet :padding='[0,0]' transprent>
+		<tm-sheet :padding='[0,0]' transprent>
 			<tm-row :column="3" :gutter="10">
 				<tm-col class="flex-1" :height='220'>
 					<tm-icon color="red" :fontSize="75" _class="ma-10" name="tmicon-minus-circle-fill"></tm-icon>
-					<tm-text color="#303133" _class="pt-4" label="邀请好友"></tm-text>
-					<tm-text :font-size="24" _class="pt-4" color='#c0c4cc' label="+6积分/位"></tm-text>
+					<tm-text color="#303133" _class="py-10" label="邀请好友"></tm-text>
+					<tm-text :font-size="24" color='#c0c4cc' label="+6积分/位"></tm-text>
 				</tm-col>
 				<tm-col class="flex-1" :height='220'>
 					<tm-icon color="red" :fontSize="75" name="tmicon-minus-circle-fill"></tm-icon>
-					<tm-text color="#303133" label="每日签到"></tm-text>
+					<tm-text color="#303133" _class="py-10" label="每日签到"></tm-text>
 					<tm-text :font-size="24" color='#c0c4cc' label="+2积分/天"></tm-text>
 				</tm-col>
 				<tm-col class="flex-1" :height='220'>
 					<tm-icon color="red" :fontSize="75" name="tmicon-minus-circle-fill"></tm-icon>
-					<tm-text color="#303133" label="赚取积分"></tm-text>
+					<tm-text color="#303133" _class="py-10" label="赚取积分"></tm-text>
 					<tm-text :font-size="24" color='#c0c4cc' label="+6积分/次"></tm-text>
 				</tm-col>
 			</tm-row>
@@ -56,7 +47,7 @@
 				title="关于我们"> </tm-cell>
 			<tm-cell showAvatar avatar="https://picsum.photos/200/300" :margin="[0, 0]" :titleFontSize="30"
 				title="管理后台"> </tm-cell>
-		</view> -->
+		</view>
 	</tm-app>
 </template>
 <script lang="ts" setup>
@@ -70,11 +61,15 @@
 	import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
 	import tmText from "@/tmui/components/tm-text/tm-text.vue"
+	import tmRow from "@/tmui/components/tm-row/tm-row.vue"
+	import tmCol from "@/tmui/components/tm-col/tm-col.vue"
+	import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
+	import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
 	import {
 		useTmpiniaStore
 	} from '@/tmui/tool/lib/tmpinia';
 	const store = useTmpiniaStore();
-	
+
 	const name = ref('')
 	const avatar = ref('')
 	const signIntegral = ref(0) //签到获得积分
@@ -83,7 +78,6 @@
 	const signShow = ref(false) // 展示 积分提示框
 	// 
 	onLoad(() => {
-		store.randomizeCounter()
 		//获取配置参数
 		getConfig()
 		//判断用户是否存在  存在更新用户信息

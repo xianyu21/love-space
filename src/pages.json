@@ -22,13 +22,13 @@
 		{
 			"path": "pages/indexExplain/indexExplain",
 			"style": {
-				"navigationBarTitleText": "TMUI"
+				"navigationBarTitleText": ""
 			}
 		},
 		{
 			"path": "pages/indexExchange/indexExchange",
 			"style": {
-				"navigationBarTitleText": "TMUI"
+				"navigationBarTitleText": ""
 			}
 		}
 	],
