@@ -49,7 +49,7 @@
  * @method click 主按钮被点击，(e:Event)
  * @method change  子按钮被点击， (index:number,item:actionsItem)
  */
-import { computed, PropType , ref } from "vue";
+import { computed, PropType , ref,inject } from "vue";
 import { positionType, popDir ,actionsItem } from "./interface";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
@@ -124,9 +124,10 @@ const props = defineProps({
         default:true
     }
 })
+const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+let windowTop = sysinfo.top;
+let windowWidth = sysinfo.width
 
-let { windowTop, windowWidth } = uni.getSystemInfoSync()
-windowTop = windowTop || 0;
 const isH5 = ref(false)
 // #ifdef H5
 isH5.value=true;

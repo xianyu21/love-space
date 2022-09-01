@@ -1,13 +1,14 @@
 <template>
     <tmSheet :follow-theme="false" :follow-dark="false" :dark="_dark" color="white" :transprent="true"  :padding="[4,4]" :margin="[0,0]" _class="flex flex-col" paren-class="flex-1">
         <view class="flex-center flex-row" style="height:62rpx">
-            <tm-text v-if="!_value" :font-size="28" _class="text-weight-b" label="安全键盘放心输入"></tm-text>
-            <tm-text v-if="_value" :font-size="22" _class="text-weight-b pr-24" :label="_value"></tm-text>
+            <tm-text v-if="!_value&&!props.showInputConten" :font-size="28" _class="text-weight-b" label="安全键盘放心输入"></tm-text>
+            <tm-text v-if="_value&&props.showInputContent" :font-size="34" _class="text-weight-b pr-24" :label="_value"></tm-text>
         </view>
         <view class="flex flex-row">
             <view class="flex-9 flex flex-col">
                 <view class="flex-row flex flex-1" v-for="(item2,index2) in numberArray" :key="index2">
                     <tmSheet 
+					hover-class="opacity-5 keywordBoradAni"
                     no-level
                     @click="keydown(item)"
                     :follow-theme="false"
@@ -28,9 +29,10 @@
             <view class="flex-1 flex flex-col">
 				<view class="flex flex-row">
 				    <tmSheet
+					hover-class="opacity-5 keywordBoradAni"
                     no-level
 					:height="100"
-				    @click="changeEnChart"
+				    @click="keydown('学')"
 				    :follow-theme="false"
 				    :follow-dark="false" :dark="_dark"
 				    :round="2"
@@ -44,6 +46,7 @@
 				</view>
                 <view class="flex flex-row">
                     <tmSheet
+					hover-class="opacity-5 keywordBoradAni"
                     no-level
 					:height="100"
                     @click="del"
@@ -62,6 +65,7 @@
 				
 				<view class="flex flex-row">
 				    <tmSheet
+					hover-class="opacity-5 keywordBoradAni"
                     no-level
 					:height="100"
 				    @click="changeEnChart"
@@ -80,6 +84,7 @@
 				
                 <view class="flex-6 flex flex-row">
                     <tmSheet 
+					hover-class="opacity-5 keywordBoradAni"
                     @click="confirm"
                     :follow-theme="props.followTheme"
                     :follow-dark="false" :dark="_dark"
@@ -98,7 +103,7 @@
     </tmSheet>
 </template>
 <script lang="ts" setup>
-import {computed, ref,toRaw,watch} from "vue";
+import {computed, ref,toRaw,watch,nextTick} from "vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmSheet from "../tm-sheet/tm-sheet.vue";
 import tmIcon from "../tm-icon/tm-icon.vue";
@@ -124,7 +129,12 @@ const props = defineProps({
     color:{
 		type:String,
 		default:"primary"
-	}
+	},
+	// 是否显示输入内容在键盘顶部。
+	showInputContent:{
+		type:Boolean,
+		default:false
+	},
 })
 const _dark = computed(()=>props.dark)
 const numberArray = ref([]);
@@ -139,12 +149,19 @@ function keydown(e:number|string){
     _value.value +=k;
     emits("update:modelValue",_value.value)
     emits("change",_value.value)
+	if(changeChart.value==false){
+		changeEnChart()
+	}
 }
 function del(){
     if(_value.value==""||_value.value.length==0) return;
     _value.value = _value.value.substring(0,_value.value.length-1)
     emits("update:modelValue",_value.value)
     emits("change",_value.value)
+	if(_value.value.length==0){
+		changeChart.value==true
+		changeEnChart()
+	}
 }
 function confirm(){
     emits("confirm",_value.value)
@@ -197,6 +214,9 @@ function shuffle(arr:Array<any> = []) {
 }
 
 watch(()=>props.modelValue,()=>{
-	_value.value = props.modelValue;
+	nextTick(()=>_value.value = props.modelValue)
 })
 </script>
+<style>
+	@import url(./ani.css);
+</style>

@@ -14,7 +14,6 @@ interface beforeRouterOpts {
  */
 export const useTmRouterBefore = (arg:beforeRouterOpts):void=>{
     // 每一个页面在初化前都会执行
-
 }
 /**
  * 路由访问后执行的函数

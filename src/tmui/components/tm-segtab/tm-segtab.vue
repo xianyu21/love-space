@@ -6,9 +6,9 @@
         :linear="props.linear"
         :linear-deep="props.linearDeep"
         :no-level="true"  :height="props.height" :color="props.bgColor" :width="props.width"
-            _class="flex-row relative" :padding="[props.gutter, props.gutter]" :margin="[0, 0]">
+            _class="flex-row relative overflow" :padding="[props.gutter, props.gutter]" :margin="[0, 0]">
             <!-- #ifdef APP-NVUE -->
-            <view v-if="_cId!==''" ref="tmBgEl" class="relative flex flex-row " :style="[{ width: (leftWidth+1) + 'px' }]">
+            <view v-if="_cId!==''" ref="tmBgEl" class="relative flex flex-row " :style="[{ width: (leftWidth) + 'px' }]">
                 <!-- left:leftPos+'px',width:leftWidth+'px' -->
                 <tm-sheet :follow-dark="props.followDark" :round="props.round"  class="flex-1" _class="flex-1" :color="props.color" :margin="[0, 0]"
                     :padding="[0, 0]"></tm-sheet>
@@ -16,7 +16,7 @@
             <!-- #endif -->
             <!-- #ifndef APP-NVUE -->
             <view v-if="_cId!==''" class="relative flex flex-row  bgbtnpos"
-                :style="[{ transform: 'translateX(' + leftPos + 'px)', width: (leftWidth+1) + 'px' }]">
+                :style="[{ transform: 'translateX(' + leftPos + 'px)', width: (leftWidth) + 'px' }]">
                 <!-- left:leftPos+'px',width:leftWidth+'px' -->
                 <tm-sheet :follow-dark="props.followDark" :round="props.round" class="flex-1 flex flex-row" parenClass="flex-1" _class="flex-1 flex flex-row" :color="props.color" :margin="[0, 0]"
                     :padding="[0, 0]"></tm-sheet>
@@ -51,7 +51,7 @@ import { custom_props } from '../../tool/lib/minxs';
 const dom = uni.requireNativePlugin('dom')
 const animation = uni.requireNativePlugin('animation')
 // #endif
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const emits = defineEmits(["update:modelValue", "change", "click"])
 
 const props = defineProps({
@@ -186,16 +186,16 @@ function getEl(el) {
 }
 function getDomRectBound(idx: number) {
     // #ifdef APP-NVUE
-    dom.getComponentRect(proxy.$refs['tm-segtab'], function (PARENAREDS) {
+    dom.getComponentRect(proxy?.$refs['tm-segtab'], function (PARENAREDS) {
         if (PARENAREDS?.size) {
             let parentleft = Math.floor((PARENAREDS.size.left ?? 0));
-            dom.getComponentRect(proxy.$refs['tab_'][idx], function (res) {
+            dom.getComponentRect(proxy?.$refs['tab_'][idx], function (res) {
                 if (res?.size) {
                     const { left, top, width } = res.size
-                    let domx = getEl(proxy.$refs['tmBgEl']);
-                    leftWidth.value = Math.floor((width ?? 0));
-                    leftPos.value = Math.floor((left ?? 0) - uni.upx2px(props.gutter)-parentleft);
-                    animation.transition(proxy.$refs['tmBgEl'], {
+                    let domx = getEl(proxy?.$refs['tmBgEl']);
+                    leftWidth.value = Math.ceil((width ?? 0));
+                    leftPos.value = Math.ceil((left ?? 0) - uni.upx2px(props.gutter)-parentleft);
+                    animation.transition(proxy?.$refs['tmBgEl'], {
                         styles: {
                             transform: 'translateX('+leftPos.value +'px)',
                         },
@@ -332,7 +332,7 @@ watch(tmFormFun,()=>{
 </script>
 <style scoped>
 .bgbtnpos {
-    transition-timing-function: ease;
+    transition-timing-function: linear;
     transition-duration: 0.2s;
     transition-property: left, width, transform;
     transition-delay: 0s;

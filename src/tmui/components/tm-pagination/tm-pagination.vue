@@ -3,6 +3,7 @@
 		<view v-if="!simple" class="flex flex-row relative flex-center" :class="[props.disabled?'opacity-5':'']">
 			<tm-sheet 
 			noLevel
+			hover-class="keywordBoradAni opacity-5"
 			@click="btnClick(item)"
 			:width="70" :height="70" 
 			:padding="[0,0]" 
@@ -17,14 +18,15 @@
 			_class="flex-center" 
 			:transprent="item.page=='...'" 
 			:color="computedCurrent==item.page?props.color:props.btnColor" 
-			:margin="[16,24]" v-for="(item,index) in pageList" :key="index"><tm-text @click="btnClick(item)" _style="line-height:70rpx;cursor: pointer;" :label="String(item.page)"></tm-text></tm-sheet>
+			:margin="[16,24]" v-for="(item,index) in pageList" :key="index"><tm-text :userInteractionEnabled="false" _style="line-height:70rpx;cursor: pointer;" :label="String(item.page)"></tm-text></tm-sheet>
 			
 		</view>
 		<view v-if="simple" class="flex flex-row relative flex-center" :class="[props.disabled?'opacity-5':'']">
 			<tm-sheet
 			noLevel
+			hover-class="keywordBoradAni opacity-5"
 			@click="pnbtn('prev')"
-			:width="120" :height="70" 
+			:width="140" :height="70" 
 			:padding="[0,0]" 
 			:round='props.round' 
 			:shadow="props.shadow" 
@@ -35,13 +37,14 @@
 			:_class="['flex-center',computedCurrent==1?'opacity-3':'']" 
 			:color="props.btnColor" 
 			:margin="[10,24]" >
-				<tm-icon :dark="props.dark" color="grey-darken-2" :fontSize="24" :followTheme="false" name="tmicon-angle-left"></tm-icon>
+				<tm-icon :userInteractionEnabled="false" :dark="props.dark" color="grey-darken-2" :fontSize="24" :followTheme="false" name="tmicon-angle-left"></tm-icon>
 			</tm-sheet>
-			<tm-text :dark="props.dark" _style="line-height:70rpx;" _class="px-24" :label="`${computedCurrent}/${pages}`"></tm-text>
+			<tm-text :dark="props.dark" _style="line-height:70rpx;" _class="px-40" :label="`${computedCurrent}/${pages}`"></tm-text>
 			<tm-sheet
 			noLevel
+			hover-class="keywordBoradAni opacity-5"
 			@click="pnbtn('next')"
-			:width="120" :height="70" 
+			:width="140" :height="70" 
 			:padding="[0,0]" 
 			:round='props.round' 
 			:shadow="props.shadow" 
@@ -52,7 +55,7 @@
 			:_class="['flex-center',computedCurrent==pages?'opacity-3':'']"
 			:color="props.btnColor" 
 			:margin="[10,24]" >
-				<tm-icon :dark="props.dark" color="grey-darken-2" :fontSize="24" :followTheme="false" name="tmicon-angle-right"></tm-icon>
+				<tm-icon :userInteractionEnabled="false" :dark="props.dark" color="grey-darken-2" :fontSize="24" :followTheme="false" name="tmicon-angle-right"></tm-icon>
 			</tm-sheet>
 		</view>
 	</view>
@@ -227,8 +230,6 @@
 			p_current.value = parseInt(item.page);
 			emits('update:current', p_current.value);
 			emits('change', p_current.value);
-			
-			
 		}else{
 			p_current.value = p_current.value+item.step;
 			emits('update:current', p_current.value);
@@ -255,5 +256,5 @@
 </script>
 
 <style>
-
+	@import url(./ani.css);
 </style>

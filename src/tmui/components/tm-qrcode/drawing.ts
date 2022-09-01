@@ -146,6 +146,7 @@ function fillStyle(ctx,value,linearDir="left"){
 			if(i==len-1) stop = 1;
 			gradient.addColorStop(stop, value[i]);
 		}
+		console.log(gradient)
 		// gradient.addColorStop(1, value[1]);
 		// #ifdef APP-NVUE || MP-WEIXIN || MP-ALIPAY || MP-QQ
 		ctx.strokeStyle = gradient;

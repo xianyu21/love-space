@@ -1,9 +1,10 @@
 <template>
-    <tm-sheet :margin="props.margin" :padding="props.padding"  >
+    <tm-sheet :transprent="tmFormTransprent" :margin="props.margin" :padding="props.padding"  >
         <view :class="['flex',tmFormLayout=='horizontal'?'flex-row flex-row-center-start':'flex-col']">
-			<view v-if="_label" :style="[{width:tmFormLabelWidth+'rpx'}]" class="mr-32 flex flex-col" 
-            :class="[tmFormLabelAlign=='right'?'flex-col-center-end':'',tmFormLayout!='horizontal'?'mb-24':'']">
-				<tm-text :color="tmFormFun=='validate'&&item.isRequiredError==true?'red':''" :font-size="30" :label="_label"></tm-text>
+			<view v-if="_label" :style="[{width:tmFormLabelWidth+'rpx'}]" class="mr-32 flex flex-row" 
+            :class="[tmFormLabelAlign=='right'?'flex-row-center-end':'',tmFormLayout!='horizontal'?'mb-24':'']">
+				<tm-text v-if="_required" color="red" :font-size="30" label="*"></tm-text>
+				<tm-text :color="tmFormFun=='validate'&&item.isRequiredError==true&&props.requiredTitleChangeColor?'red':''" :font-size="30" :label="_label"></tm-text>
 			</view>
 			<view class="flex-1" :style="[tmFormLayout=='horizontal'?{width: '0px'}:'']">
 			    <view>
@@ -31,7 +32,7 @@ import tmText from "../tm-text/tm-text.vue"
 import tmDivider from "../tm-divider/tm-divider.vue"
 import { rulesItem ,inputPushItem} from "./interface";
 import { formItem } from "./../tm-form/interface";
-const {proxy} = <ComponentInternalInstance>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const tmFormComnameFormItem = "tmFormComnameFormItem"
 const props = defineProps({
     label:{
@@ -78,6 +79,11 @@ const props = defineProps({
 	showError:{
 		type:Boolean,
 		default:true
+	},
+	//校验不通过时，是否让标题跟着变化文字颜色，默认是。
+	requiredTitleChangeColor:{
+		type:Boolean,
+		default:true
 	}
 	
 })
@@ -90,17 +96,20 @@ const item:Ref<formItem> = ref({
     id:uni.$tm.u.getUid(1),//表单唯一标识id
     componentsName:"",//表单组件类型。
 })
+const _required = ref(props.required)
 const tmFormLabelWidth = inject("tmFormLabelWidth",computed(()=>100))
 const tmFormLabelAlign = inject("tmFormLabelAlign",computed(()=>"left"))
 const tmFormLayout = inject("tmFormLayout",computed(()=>"horizontal"))
 const tmFormBorder_inject = inject("tmFormBorder",computed(()=>true))
+const tmFormTransprent = inject("tmFormTransprent",computed(()=>false))
+
 const tmFormBorder = computed(()=>{
     if(props.border!==null&&typeof props.border === 'boolean') return props.border;
     return tmFormBorder_inject.value
 })
 const _label = computed(()=>props.label)
 //父级方法。
-let parent = proxy?.$parent
+let parent:any = proxy?.$parent
 while (parent) {
     if (parent?.tmFormComnameId == 'tmFormId' || !parent) {
         break;
@@ -118,10 +127,12 @@ provide('tmFormItemRules',computed(()=>{
 	let defaultrs:Array<rulesItem> = []
 	if(Array.isArray(props?.rules)){
 		props?.rules.forEach(el=>{
+			let isreq = el?.required??props.required;
+	
             defaultrs.push(
                 {
                     message:el?.message??"请填写必要的内容",
-                    required:el?.required??props.required,
+                    required:isreq,
                     validator:el?.validator??false
                 }
             )

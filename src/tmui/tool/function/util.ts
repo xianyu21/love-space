@@ -568,16 +568,20 @@ export function toast(word:string,mask:boolean=true,icon:any='none'){
  * 获取屏幕窗口安全高度和宽度
  * 注意是针对种屏幕的统一计算，统一高度，不再让uni获取有效高度而烦恼。
  * 请一定要在onMounted或者onLoad中调用，否则不准确在h5端。
- * @return {height,width}
+ * @return {height,width,top,isCustomHeader}
  */
-export function getWindow(){
-
+export function getWindow():{width:number,height:number,top:number,bottom:number,isCustomHeader:Boolean,sysinfo:UniApp.GetSystemInfoResult}{
+	// let getsysinfoSync = getCookie("tmui_sysinfo")
+	// if(getsysinfoSync){
+	// 	return getsysinfoSync
+	// }
 	const sysinfo = uni.getSystemInfoSync();
-	uni.hideKeyboard()
 	let top =0;
 	let height = sysinfo.windowHeight;
 	let nowPage = getCurrentPages().pop()
 	let isCustomHeader = false;
+	let pages = uni.$tm?.pages??[]
+	let bottom = sysinfo.safeAreaInsets?.bottom??0;
 	for(let i=0;i<uni.$tm.pages.length;i++){
 		if(nowPage?.route==uni.$tm.pages[i].path&&uni.$tm.pages[i].custom=='custom'){
 			isCustomHeader = true;
@@ -585,32 +589,24 @@ export function getWindow(){
 		}
 	}
 	// #ifdef H5
+	// 兼容说明：h5端第一次获取的高度和第二次获取的高度是有差异 的。
 	if (isCustomHeader) {
-		height  = sysinfo.windowHeight+44
+		height  = sysinfo.windowHeight+sysinfo.windowTop
+		
 	}else{
-		height  = sysinfo.windowHeight-44
-	}
-	// #endif
-
-	// #ifdef APP-NVUE 
-	if(!isCustomHeader){
-		if(sysinfo.osName=="android"){
-			height = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44 - (sysinfo.safeAreaInsets?.bottom??0)
+		top = 44
+		if(sysinfo.windowTop>0){
+			height  = sysinfo.windowHeight;
 		}else{
-			height = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
+			height  = sysinfo.windowHeight+sysinfo.windowTop
 		}
-	}else{
-		height = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
 	}
+	
 	// #endif
-	// #ifdef APP-VUE 
-	if(!isCustomHeader){
-		height = (sysinfo.safeArea?.height??sysinfo.windowHeight) - 44
-	}else{
-		height = (sysinfo.safeArea?.height??sysinfo.windowHeight) + (sysinfo?.statusBarHeight??0) + (sysinfo.safeAreaInsets?.bottom??0)
-	}
-	// #endif
-	return {height:height,width:sysinfo.windowWidth,top:top};
+	
+	let reulst = {bottom:bottom,height:height,width:sysinfo.windowWidth,top:top,isCustomHeader:isCustomHeader,statusBarHeight:sysinfo.statusBarHeight,sysinfo:sysinfo};
+	
+	return reulst;
 }
 type openUrlType = "navigate"|"redirect"|"reLaunch"|"switchTab"|"navigateBack"
 /**
@@ -627,11 +623,39 @@ export function routerTo(url:string,type:openUrlType='navigate'){
 		reLaunch:"reLaunch",
 		navigateBack:"navigateBack",
 	}
-	let fun= <openUrlTypeFun>funType[type];
-	uni[fun]({
-		url:url,
-		fail(result) {
-			console.error(result)
-		},
-	})
+	let fun= funType[type];
+	if(fun=='navigateBack'){
+		uni.navigateBack({fail(error) {
+			console.error(error)
+		}})
+	}else if(fun=='reLaunch'){
+		uni.reLaunch({
+			url:url,
+			fail(error) {
+				console.error(error)
+			}
+		})
+	}else if(fun=='switchTab'){
+		uni.switchTab({
+			url:url,
+			fail(error) {
+				console.error(error)
+			}
+		})
+	}else if(fun=='redirectTo'){
+		uni.redirectTo({
+			url:url,
+			fail(error) {
+				console.error(error)
+			}
+		})
+	}else if(fun=='navigateTo'){
+		uni.navigateTo({
+			url:url,
+			fail(error) {
+				console.error(error)
+			}
+		})
+	}
+	
 }

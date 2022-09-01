@@ -1,5 +1,8 @@
 <template>
-    <tm-drawer  :round="props.round" ref="drawer" :height="dHeight" @update:show="_show = $event" :show="_show" @close="close" @open="open"
+    <tm-drawer  :disabbleScroll="true" :round="props.round" ref="drawer" :height="dHeight" 
+	@update:show="_show = $event" :show="_show" @close="close" 
+	:ok-color="props.color"
+	@open="open"
         title="请选择时间" :closable="true" @ok="confirm">
          <tm-time-view
             :height="dHeight-230"
@@ -40,7 +43,7 @@ import tmDrawer from "../tm-drawer/tm-drawer.vue";
 import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmButton from "../tm-button/tm-button.vue";
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
 const emits = defineEmits(["update:modelValue", "update:modelStr", "update:show", "confirm","change", "cancel", "close", "open"])
 
@@ -150,12 +153,13 @@ const _value = ref(props.defaultValue)
 const _strvalue = ref("")
 
 
-// #ifdef APP || MP-WEIXIN
-let win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0
-// #endif
-// #ifndef APP || MP-WEIXIN
-let win_bottom = uni.getSystemInfoSync()?.safeArea?.bottom??0
-win_bottom = win_bottom>uni.getSystemInfoSync().windowHeight?0:win_bottom
+const sysinfo =  uni.getSystemInfoSync()
+let win_bottom = sysinfo?.safeAreaInsets?.bottom??0
+// #ifndef APP || MP
+if(typeof sysinfo?.safeAreaInsets=='undefined'){
+	win_bottom =sysinfo?.safeArea?.bottom??0
+}
+win_bottom = win_bottom>=sysinfo.windowHeight?0:win_bottom
 // #endif
 
 function close() {

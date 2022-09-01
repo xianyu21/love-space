@@ -1,9 +1,4 @@
-<!--
- * @Date: 2022-05-07 14:25:19
- * @LastEditors: tmzdy
- * @Author: tmzdy
- * @Description: 文件
--->
+
 <template>
     <tm-sheet :margin="[0, 0]" :padding="[0, 0]">
         <!-- 按日选择的日期，可单选，多选。 -->
@@ -44,7 +39,7 @@ import monthDay from "./month-day.vue";
 import rangeDay from "./range-day.vue";
 import tmSheet from '../tm-sheet/tm-sheet.vue';
 import { monthDayItem, dateItemStyle, monthYearItem, weekItem, yearItem } from "./interface"
-const {proxy} = <any>getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const rDay = ref<InstanceType<typeof rangeDay> | null>(null)
 const Day = ref<InstanceType<typeof monthDay> | null>(null)
 const Year = ref<InstanceType<typeof yearDu> | null>(null)

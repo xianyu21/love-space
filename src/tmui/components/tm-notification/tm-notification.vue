@@ -38,7 +38,7 @@
 			:padding="props.padding"
 			>
 			<slot>
-				<view class="flex flex-row  relative px-12">
+				<view class="flex flex-row flex-row-center-between  relative ">
 					
 					<view class="flex flex-1 flex-row overflow flex-row-center-start" >
 						<tm-icon _class="pr-10" :fontSize="26" :name="icon_str"></tm-icon>
@@ -46,7 +46,7 @@
 							<tm-text _class="text-overflow-1" :label="label_str"></tm-text>
 						</slot>
 					</view>
-					<view class="pl-24 flex flex-center" style="width:0rpx">
+					<view class="pl-24 pr-12 flex flex-center" style="width:0rpx">
 						<tm-icon @click="hide" :fontSize="24" name="tmicon-times"></tm-icon>
 					</view>
 				</view>
@@ -74,24 +74,24 @@
 	import { getCurrentInstance, computed, ref, provide, inject , onUpdated, onMounted, onUnmounted, nextTick ,watch, PropType } from 'vue';
 import { showOpts } from "./interface";
 	const emits = defineEmits(['click','close'])
-	const {proxy} = getCurrentInstance();
+	const proxy = getCurrentInstance()?.proxy??null;
 	const tranmatioan = ref<InstanceType<typeof tmTranslate> | null>(null)
 	const props = defineProps({
 		...custom_props,
 		followTheme:{
-			type:[Boolean,String],
+			type:[Boolean,],
 			default:true
 		},
 		transprent:{
-			type: [Boolean,String],
+			type: [Boolean,],
 			default: false
 		},
 		border: {
-			type: [Number, String],
+			type: [Number, ],
 			default: 0
 		},
 		round: {
-			type: [Number, String],
+			type: [Number, ],
 			default: 2
 		},
 		shadow: {
@@ -129,9 +129,10 @@ import { showOpts } from "./interface";
 			default:'tmicon-info-circle-fill'
 		}
 	})
-	const { windowTop,windowBottom ,windowWidth } = uni.getSystemInfoSync();
-	
-
+	const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+	let windowBottom = sysinfo.bottom;
+	let windowTop = sysinfo.top;
+	let windowWidth = sysinfo.width;
 	const p_top = ref(windowTop||0)
 	const p_bottom = ref(windowBottom||0)
 	const p_width = ref(windowWidth||0)
@@ -243,7 +244,7 @@ import { showOpts } from "./interface";
 		label_str.value = props.label;
 		icon_str.value = props.icon;
 	})
-	function endAnimation(e){
+	function endAnimation(){
 		clearTimeout(timeid.value)
 		if(props.duration==0&&!handleClose.value) return;
 		timeid.value = setTimeout(function(){

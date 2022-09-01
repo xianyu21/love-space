@@ -150,7 +150,7 @@ import { getCurrentInstance, computed, ref, provide, inject, onUpdated, onMounte
 // #ifdef APP-PLUS-NVUE
 const dom = uni.requireNativePlugin('dom')
 // #endif
-const { proxy } = getCurrentInstance();
+const proxy = getCurrentInstance()?.proxy??null;
 const aniDom = ref<InstanceType<typeof tmTranslate> | null>(null)
 const props = defineProps({
 	...custom_props,
@@ -187,16 +187,14 @@ const props = defineProps({
 		default: "提示内容"
 	}
 })
-const info = uni.getSystemInfoSync();
-const windowWidth = ref(info.windowWidth)
-const windowHeight = ref(info.safeArea.height)
+const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+const windowWidth = ref(sysinfo.width)
+const windowHeight = ref(sysinfo.height)
 let isNvue = ref(false)
 // #ifdef APP-PLUS-NVUE
 isNvue.value = true;
 // #endif
-function test(e) {
-	console.log("999")
-}
+
 let timeid = ref(uni.$tm.u.getUid(5))
 let show = ref(false)
 let domNvuePosCss = ref({
@@ -224,11 +222,11 @@ function nvueDomPos() {
 	// #ifdef APP-PLUS-NVUE
 	try {
 		nextTick(function () {
-			dom.getComponentRect(proxy.$refs.popver, function (res) {
+			dom.getComponentRect(proxy?.$refs.popver, function (res) {
 				domNvuePosCss.value = { ...res.size }
 
 			})
-			dom.getComponentRect(proxy.$refs.content, function (res) {
+			dom.getComponentRect(proxy?.$refs.content, function (res) {
 				if (res?.size) {
 					domNvueContentCss.value = { ...res.size }
 				}
@@ -252,7 +250,7 @@ watch(() => show.value, () => {
 	clearTimeout(timeid.value)
 	if (show.value == true) {
 		setTimeout(function () {
-			tmTranslate.value?.play();
+			aniDom.value?.play();
 		}, 80)
 	}
 	// #endif

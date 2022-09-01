@@ -3,14 +3,14 @@
 	@close="drawerClose" @update:show = "showPop=$event" :show="showPop" :dark="isDark" 
 	:follow-dark="props.followDark" :follow-theme="false" :height="dHeight"
         :hide-header="true" color="grey-3" :mask="false">
-        <keyborad-number :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='number'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
-        <keyborad-pass :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='password'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
-        <keyborad-car :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='car'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-car>
-        <keyborad-card :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='card'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
+        <keyborad-number :showInputContent="props.showInputContent" :decimal="props.decimal" :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='number'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-number>
+        <keyborad-pass :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='password'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-pass>
+        <keyborad-car :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='car'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-car>
+        <keyborad-card :showInputContent="props.showInputContent" :followTheme="props.followTheme" :random="props.random" :color="props.color" v-if="_typemodel=='card'" @change="change" @confirm="confirm" :model-value="_value" @update:modelValue="_value = $event" :dark="isDark" class="flex-1"></keyborad-card>
     </tm-drawer>
 </template>
 <script lang="ts" setup>
-import { ref,computed, watch, toRaw,getCurrentInstance } from "vue"
+import { ref,computed, watch, toRaw,getCurrentInstance,nextTick,inject,PropType } from "vue"
 import { custom_props, computedDark } from '../../tool/lib/minxs';
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import keyboradNumber from "./keyborad-number.vue";
@@ -33,7 +33,7 @@ const props = defineProps({
 	 * 密码     | 身份证|  车牌 | 数字键盘
 	 */
 	type:{
-		type:String,
+		type:String as PropType<"password"|"card"|"car"|"number">,
 		default:'number'
 	},
 	//显示隐藏键盘可v-model:show
@@ -60,6 +60,16 @@ const props = defineProps({
         type:Boolean,
         default:false 
     },
+	//是否需要显示小数点。
+	decimal:{
+		type:Boolean,
+		default:false 
+	},
+	// 是否显示输入内容在键盘顶部。
+	showInputContent:{
+		type:Boolean,
+		default:true
+	},
 })
 // 设置响应式全局组件库配置表。
 const tmcfg = computed(() => store.tmStore);
@@ -67,6 +77,7 @@ const tmcfg = computed(() => store.tmStore);
 const isDark = computed(() => computedDark(props, tmcfg.value));
 const showPop = ref(props?.show??false);
 const _value = ref(props?.defaultValue??"");
+const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
 const _typemodel = computed(()=>props.type)
 watch(()=>props.show,()=>{
 	showPop.value = props.show;
@@ -101,10 +112,14 @@ function drawerOpen(){
 }
 
 watch(()=>props.modelValue,()=>{
-	_value.value = props.modelValue;
+	_value.value = props.modelValue
 })
 function change(){
 	emits("update:modelValue",toRaw(_value.value))
+	nextTick(()=>{
+		_value.value = props.modelValue
+		emits("change",toRaw(_value.value))
+	})
 	// #ifdef MP
 	uni.vibrateShort()
 	// #endif
@@ -112,23 +127,13 @@ function change(){
 function confirm(){
 	debounce(()=>{
 		emits("confirm",toRaw(_value.value))
-	
 		drawer.value?.close()
 	},250,true)
 	
 }
 
 
-// #ifdef APP || MP-WEIXIN
-let win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0
-// #endif
-// #ifndef APP || MP-WEIXIN
-let win_bottom = uni.getSystemInfoSync()?.safeArea?.bottom??0
-win_bottom = win_bottom>uni.getSystemInfoSync().windowHeight?0:win_bottom
-// #endif
-
 const dHeight = computed(() => {
-    
-    return 520+win_bottom
+    return 520+sysinfo.bottom
 })
 </script>

@@ -2,8 +2,14 @@
 	<tm-app ref="app">
 		<tm-sheet>
 			<view class="flex flex-row flex-wrap">
-				<tm-button :margin="[10, 10]" :shadow="0" :label="'登录'+signIntegral" @click="getUserInfo"></tm-button>
-				<tm-button :margin="[10, 10]" :shadow="0" :label="'签到'+inviteIntegral" @click="signClick"></tm-button>
+				<tm-button :margin="[10, 10]" :shadow="0" label="登录" @click="getUserInfo"></tm-button>
+				<tm-button :margin="[10, 10]" :shadow="0" label="签到" @click="signClick"></tm-button>
+				<template v-if="!isMyInviteCode">
+					<tm-button :margin="[10, 10]" :shadow="0" label="生成邀请码" @click="setUserInviteCode"></tm-button>
+				</template>
+				<template v-else>
+					<tm-button :margin="[10, 10]" :shadow="0" label="已生成邀请码,点击发送给好友" openType='share'></tm-button>
+				</template>
 				{{isSign?'签到':'未签到'}}
 			</view>
 		</tm-sheet>
@@ -56,7 +62,8 @@
 		computed
 	} from "vue"
 	import {
-		onLoad
+		onLoad,
+		onShareAppMessage
 	} from "@dcloudio/uni-app";
 	import tmApp from "@/tmui/components/tm-app/tm-app.vue"
 	import tmSheet from "@/tmui/components/tm-sheet/tm-sheet.vue"
@@ -65,10 +72,18 @@
 	import tmCol from "@/tmui/components/tm-col/tm-col.vue"
 	import tmIcon from "@/tmui/components/tm-icon/tm-icon.vue"
 	import tmCell from "@/tmui/components/tm-cell/tm-cell.vue"
+	import tmButton from "@/tmui/components/tm-button/tm-button.vue"
 	import {
-		useTmpiniaStore
-	} from '@/tmui/tool/lib/tmpinia';
-	const store = useTmpiniaStore();
+		userStore
+	} from '@/stores/user'
+	const store = userStore()
+
+	onShareAppMessage(() => {
+		return {
+			title: '1111111111111',
+			path: '/pages/index/loveBind?loveId=' + myInviteCode.value,
+		}
+	})
 
 	const name = ref('')
 	const avatar = ref('')
@@ -76,13 +91,23 @@
 	const inviteIntegral = ref(0) //邀请获得积分
 	const isSign = ref(false) //是否签到
 	const signShow = ref(false) // 展示 积分提示框
+	const myInviteCode = ref('')
+	const isMyInviteCode = ref(false)
 	// 
-	onLoad(() => {
+	onLoad((option) => {
+
 		//获取配置参数
-		getConfig()
+		// getConfig()
 		//判断用户是否存在  存在更新用户信息
-		if (store.tmStore.vuex_user) {
+		console.log(store, '------------------------');
+		if (!store.userinfo) {
 			getUser()
+		} else {
+			// if (store.userinfo.loveId)
+			if (store.userinfo.userInfo.my_invite_code) {
+				myInviteCode.value = store.userinfo.userInfo.my_invite_code
+				isMyInviteCode.value = true
+			}
 		}
 
 	});
@@ -156,6 +181,7 @@
 			},
 		}).then(async res => {
 			if (res.result.success) {
+				console.log(res.result.data, 'res.result.data');
 				store.$patch(state => {
 					state.tmStore.vuex_user = res.result.data
 				})
@@ -202,8 +228,8 @@
 		uniCloud.callFunction({
 			name: 'sign_add',
 			data: {
-				// "userId": store.tmStore.vuex_user._id,
-				"userId": '62e680242f77c40001b3fa13',
+				"userId": '',
+				// "userId": '62e680242f77c40001b3fa13',
 			},
 		}).then(res => {
 			uni.hideLoading()
@@ -228,5 +254,25 @@
 		})
 
 
+	}
+	// 生成邀请码
+	async function setUserInviteCode() {
+		console.log('已触发', store.userinfo.uid);
+		await uniCloud.callFunction({
+			name: 'ls-login',
+			data: {
+				action: 'setUserInviteCode',
+				params: {
+					uid: store.userinfo.uid
+				}
+			}
+		}).then(res => {
+			console.log(res, '-------------------');
+			if (res.result.code == 0) {
+				myInviteCode.value = res.result.myInviteCode
+				isMyInviteCode.value = true
+			}
+
+		})
 	}
 </script>

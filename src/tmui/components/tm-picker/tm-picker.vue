@@ -1,5 +1,5 @@
 <template>
-    <tm-drawer :round="props.round" ref="drawer" :height="dHeight" :closable="true" :overlayClick="aniover" v-if="showCity" @open="drawerOpen" @cancel="cancel" @ok="confirm"
+    <tm-drawer  :disabbleScroll="true" :round="props.round" ref="drawer" :height="dHeight" :closable="true" :overlayClick="aniover" v-if="showCity" @open="drawerOpen" @cancel="cancel" @ok="confirm"
         :show="showCity" @update:show="closeDrawer" title="请选择" ok-text="确认">
         <tm-picker-view 
 		:dataKey="props.dataKey"
@@ -31,7 +31,7 @@
  * 级联选择（弹层）
  * @description 这是弹出式级联
  */
-import { PropType, Ref, ref, watchEffect,getCurrentInstance, computed, toRaw } from "vue"
+import { PropType, Ref, ref, watchEffect,getCurrentInstance, computed, toRaw ,inject } from "vue"
 import { custom_props } from "../../tool/lib/minxs";
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import { columnsItem } from "../tm-picker-view/interface"
@@ -40,7 +40,7 @@ import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmButton from "../tm-button/tm-button.vue";
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
-const {proxy} = getCurrentInstance()
+const proxy = getCurrentInstance()?.proxy??null;
 
 /**
  * 事件说明：
@@ -134,16 +134,10 @@ const props = defineProps({
 const showCity = ref(true)
 const _colIndex: Ref<Array<number>> = ref([])
 const _data = computed(()=>props.columns)
-const _colStr = ref('')
+const _colStr = ref(props.modelStr)
 const aniover = ref(true)
-
-// #ifdef APP || MP-WEIXIN
-let win_bottom = uni.getSystemInfoSync()?.safeAreaInsets?.bottom??0
-// #endif
-// #ifndef APP || MP-WEIXIN
-let win_bottom = uni.getSystemInfoSync()?.safeArea?.bottom??0
-win_bottom = win_bottom>uni.getSystemInfoSync().windowHeight?0:win_bottom
-// #endif
+const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+const win_bottom = sysinfo.bottom
 watchEffect(() => {
     showCity.value = props.show
 })
@@ -161,7 +155,7 @@ getIndexBymodel(_data.value, props.selectedModel, 0, props.defaultValue)
 setVal()
 //点击确认了地区。
 function confirm() {
-    if (!aniover.value) return
+    // if (!aniover.value) return
     setVal();
     emits("confirm", toRaw(_colIndex.value))
     drawer.value?.close();
@@ -248,6 +242,6 @@ function getRouterId(list = [], parentIndex = 0): Array<string | number> {
     return p
 }
 const dHeight = computed(() => {
-    return props.height+win_bottom+80
+    return props.height+sysinfo.bottom+80
 })
 </script>

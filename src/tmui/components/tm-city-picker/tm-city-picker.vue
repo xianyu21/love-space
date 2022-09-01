@@ -1,5 +1,5 @@
 <template>
-    <tm-drawer :round="props.round" ref="drawer" 
+    <tm-drawer  :disabbleScroll="true" :round="props.round" ref="drawer" 
 	:height="820" :closable="true" :overlayClick="aniover" v-if="showCity" @open="drawerOpen" @cancel="cancel" @ok="confirm"
         :show="showCity" @update:show="closeDrawer" title="请选择地区" ok-text="确认">
         <tm-picker-view :height="590" @end="aniover = true" @start="aniover = false" :value="_colIndex"
@@ -23,7 +23,7 @@
  * @description 这是弹出式，滑动地址选择器，另还一个按步选择地区的组件，见：tm-city-cascader
  * @example <tm-city-picker v-model:show="show" v-model="status" v-model:model-str="statusw"></tm-city-picker>
  */
-import { PropType, Ref, ref, watchEffect,getCurrentInstance } from "vue"
+import { PropType,inject, Ref, ref, watchEffect,getCurrentInstance } from "vue"
 import { custom_props } from "../../tool/lib/minxs";
 import tmDrawer from '../tm-drawer/tm-drawer.vue';
 import { childrenData } from "./interface"
@@ -34,7 +34,7 @@ import tmPickerView from "../tm-picker-view/tm-picker-view.vue";
 import TmSheet from "../tm-sheet/tm-sheet.vue";
 import tmText from "../tm-text/tm-text.vue";
 import tmButton from "../tm-button/tm-button.vue";
-const {proxy} = getCurrentInstance()
+const proxy = getCurrentInstance()?.proxy??null;
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
  
 /**
@@ -104,8 +104,8 @@ const _colIndex: Ref<Array<number>> = ref([])
 const _data = ref(chiliFormatCity_area())
 const _colStr = ref('')
 const aniover = ref(true)
-let win_bottom = uni.getSystemInfoSync()?.safeArea?.bottom??0
-win_bottom = win_bottom>uni.getSystemInfoSync().windowHeight?0:win_bottom
+const sysinfo = inject("tmuiSysInfo",{bottom:0,height:750,width:uni.upx2px(750),top:0,isCustomHeader:false,sysinfo:null})
+let win_bottom = sysinfo.bottom
 
 watchEffect(() => {
     showCity.value = props.show
@@ -144,7 +144,7 @@ function setVal() {
     emits("update:modelStr", _colStr.value)
 }
 //模拟模型来返回index值
-function getIndexBymodel(vdata = [], model = "name", parentIndex = 0, value = []): Array<number> {
+function getIndexBymodel(vdata:Array<childrenData> = [], model = "name", parentIndex = 0, value:Array<number|string> = []): Array<number|string> {
     if (model == 'name') {
         let item = vdata.filter(el => value[parentIndex] == el['text'])
         if (item.length == 0) {
@@ -192,7 +192,7 @@ function getIndexBymodel(vdata = [], model = "name", parentIndex = 0, value = []
     return _colIndex.value;
 }
 //返回 一个节点从父到子的路径id组。
-function getRouterId(list = [], parentIndex = 0): Array<string | number> {
+function getRouterId(list:Array<childrenData>  = [], parentIndex = 0): Array<string | number> {
     let p: Array<string | number> = [];
     for (let i = 0; i < list.length; i++) {
         if (i == _colIndex.value[parentIndex]) {
@@ -211,7 +211,7 @@ function chiliFormatCity_area() {
     let list: Array<childrenData> = [];
     provinceData.forEach((item: childrenData, index: number) => {
         list.push({
-            id: item.value,
+            id: item.value??"",
             text: String(item.label),
             children: []
         })
@@ -219,9 +219,9 @@ function chiliFormatCity_area() {
     if (props.cityLevel == 'province') return list;
     cityData.forEach((item: childrenData, index: number) => {
         item.forEach((citem: childrenData, cindex: number) => {
-            list[index].children.push({
-                id: citem.value,
-                text: citem.label,
+            list[index]?.children.push({
+                id: citem.value??"",
+                text: citem.label??"",
                 children: []
             })
         })
@@ -230,9 +230,9 @@ function chiliFormatCity_area() {
     list.forEach((item, index) => {
         item.children.forEach((citem, cindex: number) => {
             areaData[index][cindex].forEach(jitem => {
-                list[index].children[cindex].children.push({
-                    id: jitem.value,
-                    text: jitem.label,
+                list[index]?.children[cindex]?.children.push({
+                    id: jitem.value??"",
+                    text: jitem.label??"",
                 })
             })
         })
