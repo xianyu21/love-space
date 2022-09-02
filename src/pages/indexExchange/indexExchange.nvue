@@ -44,16 +44,6 @@
 			<tm-cell showAvatar avatar="https://picsum.photos/200/300" :margin="[0, 0]" :titleFontSize="30"
 				rightText="投稿赚积分" title="我的投稿"> </tm-cell>
 		</view>
-		<view class="mb-32 mx-32 round-3 overflow">
-			<tm-cell showAvatar avatar="https://picsum.photos/200/300" :margin="[0, 0]" :titleFontSize="30"
-				title="联系客服"> </tm-cell>
-			<tm-cell showAvatar avatar="https://picsum.photos/200/300" :margin="[0, 0]" :titleFontSize="30"
-				title="意见反馈"> </tm-cell>
-			<tm-cell showAvatar avatar="https://picsum.photos/200/300" :margin="[0, 0]" :titleFontSize="30"
-				title="关于我们"> </tm-cell>
-			<tm-cell showAvatar avatar="https://picsum.photos/200/300" :margin="[0, 0]" :titleFontSize="30"
-				title="管理后台"> </tm-cell>
-		</view>
 	</tm-app>
 </template>
 <script lang="ts" setup>

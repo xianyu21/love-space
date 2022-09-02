@@ -10,30 +10,57 @@
 	const store = userStore()
 	onLaunch((options) => {
 		console.log('onLaunch');
-		uni.login({
-			provider: 'weixin',
-			success: async res => {
-				let user = await uniCloud.callFunction({
-					name: 'ls-login',
-					data: {
-						action: 'loginByWeixin',
-						params: {
-							type: "login",
-							code: res.code
-						}
-					}
-				})
-				if(user.result.code == 0){
-					store.userinfo = user.result
-				}else if(user.result.code == 10403){
-					console.log(user.result,'------------------------');
-				}else{
-					
-				}
-				
-				
+		const token = uni.$tm.u.getCookie('token')
+		uniCloud.callFunction({
+			name: 'ls-login',
+			data: {
+				action: 'getUserInfo',
+				uniIdToken: token
 			}
-		});
+		}).then(res => {
+			console.log(res.result.userInfo.token.at(-1), '------------------------');
+			const {
+				uid
+			} = res.result.userInfo
+			console.log(uid);
+			if (res.result.code == 0) {
+				store.userinfo = {
+					uid: res.result.userInfo._id,
+					token:res.result.userInfo.token.at(-1),
+				}
+			} else if (res.result.code == 10403) {
+
+			} else {}
+		})
+
+
+
+
+
+		// uni.login({
+		// 	provider: 'weixin',
+		// 	success: async res => {
+		// 		let user = await uniCloud.callFunction({
+		// 			name: 'ls-login',
+		// 			data: {
+		// 				action: 'loginByWeixin',
+		// 				params: {
+		// 					type: "login",
+		// 					code: res.code
+		// 				}
+		// 			}
+		// 		})
+		// 		if(user.result.code == 0){
+		// 			store.userinfo = user.result
+		// 		}else if(user.result.code == 10403){
+		// 			console.log(user.result,'------------------------');
+		// 		}else{
+
+		// 		}
+
+
+		// 	}
+		// });
 	})
 	onShow((options) => {
 		console.log('onShow', options);

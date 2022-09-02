@@ -7,6 +7,7 @@ exports.main = async (event, context) => {
 	})
 	let params = event.params || {}
 	let payload = {}
+	//不检测token
 	let noCheckAction = [
 		'checkToken',
 		'encryptPwd',
@@ -163,6 +164,22 @@ exports.main = async (event, context) => {
 				'loveId': loveId1
 			})
 			res = await uniCloud.database().collection('uni-id-users').doc(loveId1).get()
+			break;
+		}
+		case 'getUserInfo': {
+			const {
+				loveId1,
+				loveId2
+			} = params
+			// 可以查询指定字段的值
+			res = await uniID.getUserInfo({
+				uid: payload.uid,
+				field: []
+			})
+			break;
+		}
+		case 'getUserInfoByToken': {
+			res = await uniID.getUserInfoByToken(event.uniIdToken)
 			break;
 		}
 		default:

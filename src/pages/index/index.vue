@@ -11,9 +11,13 @@
 		onShow,
 		onLoad
 	} from "@dcloudio/uni-app";
-
+	import {
+		userStore
+	} from '@/stores/user'
+	const store = userStore()
 
 	onLoad((res) => {
 		console.log(res);
+		console.log(store,'------------------------');
 	})
 </script>
