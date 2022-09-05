@@ -8,30 +8,52 @@
 		userStore
 	} from '@/stores/user'
 	const store = userStore()
-	onLaunch((options) => {
+	onLaunch(async (options) => {
 		console.log('onLaunch');
 		const token = uni.$tm.u.getCookie('token')
-		uniCloud.callFunction({
+		const tokenInfo = await uniCloud.callFunction({
 			name: 'ls-login',
 			data: {
-				action: 'getUserInfo',
+				action: 'checkToken',
 				uniIdToken: token
 			}
-		}).then(res => {
-			console.log(res.result.userInfo.token.at(-1), '------------------------');
-			const {
-				uid
-			} = res.result.userInfo
-			console.log(uid);
-			if (res.result.code == 0) {
-				store.userinfo = {
-					uid: res.result.userInfo._id,
-					token:res.result.userInfo.token.at(-1),
-				}
-			} else if (res.result.code == 10403) {
-
-			} else {}
 		})
+		if (tokenInfo.result.code != 0) {
+			const refreshToken = await uniCloud.callFunction({
+				name: 'ls-login',
+				data: {
+					action: 'refreshToken',
+					uniIdToken: token
+				}
+			})
+			console.log(refreshToken,'------------------------');
+		}
+		// uniCloud.callFunction({
+		// 	name: 'ls-login',
+		// 	data: {
+		// 		action: 'getUserInfo',
+		// 		uniIdToken: token
+		// 	}
+		// }).then(res => {
+		// 	if (res.result.code == 0) {
+		// 		console.log(res.result.userInfo.token.at(-1), '------------------------');
+		// 		const {
+		// 			uid
+		// 		} = res.result.userInfo
+		// 		console.log(uid);
+		// 		if (res.result.code == 0) {
+		// 			store.userinfo = {
+		// 				uid: res.result.userInfo._id,
+		// 				token: res.result.userInfo.token.at(-1),
+		// 			}
+		// 		} else if (res.result.code == 10403) {
+
+		// 		} else {}
+		// 	} else {
+		// 		console.log(res.result, '------------------------');
+		// 	}
+
+		// })
 
 
 

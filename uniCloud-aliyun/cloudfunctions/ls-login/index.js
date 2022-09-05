@@ -106,8 +106,15 @@ exports.main = async (event, context) => {
 				needPermission: true
 			})
 			break;
-
-
+		case 'refreshToken':
+			const {
+				token,
+				tokenExpired
+			} = await uniID.refreshToken({
+				token: event.uniIdToken
+			})
+			console.log(token,tokenExpired)
+			break;
 		case 'loginBySms': {
 			const {
 				mobile,
