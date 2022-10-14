@@ -1,7 +1,0 @@
-{
-  "name": "taskAdd",
-  "dependencies": {},
-  "extensions": {
-    "uni-cloud-jql": {}
-  }
-}

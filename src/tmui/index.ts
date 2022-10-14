@@ -1,11 +1,13 @@
 import { fetchNet } from './tool/lib/fetch';
 import themeTool from './tool/theme/theme';
+import fontJson from './tool/tmicon/fontJson';
 import {setDomDarkOrWhite} from './tool/theme/util';
 import preview, * as util from './tool/function/util';
 import { language, languageByGlobal } from "./tool/lib/language"
 import { share } from "./tool/lib/share"
 import { App, nextTick } from "vue"
 import PageJsonInit from "../pages.json"
+
 import {
 	useTmRouterAfter,
 	useTmRouterBefore
@@ -41,19 +43,31 @@ let tabBar:tabBarType = pagers?.tabBar?? {
 	backgroundColor: "",
 	list:[]
 }
+
+// custom icon
+let cusutomIconList = [];
+// #ifdef APP
+cusutomIconList = fontJson;
+// #endif
 const $tm = {
 	tabBar: tabBar,
 	pages: pages,
 	isColor: themeTool.isCssColor,
 	u: { ...util, preview },
 	language: language,
-	fetch: fetchNet
+	fetch: fetchNet,
+	tmicon:[
+		{
+			font:"tmicon",
+			prefix:"tmicon-",
+			fontJson:cusutomIconList
+		}
+	]
 };
 
-
+uni.$tm = $tm;
 export default {
 	install: (app: App, options: object) => {
-		uni.$tm = $tm;
 		uni.addInterceptor('navigateTo', {
 			invoke(result){
 				nextTick(()=>{
@@ -128,7 +142,9 @@ export default {
 		// #endif
 		//路由拦截
 		function linsInko(obj:any){
+			// #ifdef H5
 			setDomDarkOrWhite();
+			// #endif
 			useTmRouterBefore(obj)
 		}
 		// #ifndef APP-NVUE
@@ -136,8 +152,8 @@ export default {
 		// #endif
 		let appconfig = {};
 		// #ifdef MP
-		// const { onShareAppMessage, onShareTimeline } = share()
-		// appconfig = { ...appconfig, onShareAppMessage, onShareTimeline }
+		const { onShareAppMessage, onShareTimeline } = share()
+		appconfig = { ...appconfig, onShareAppMessage, onShareTimeline }
 		// #endif
 
 		app.mixin({

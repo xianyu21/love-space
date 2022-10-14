@@ -1,7 +1,0 @@
-{
-  "name": "sign_add",
-  "dependencies": { },
-  "extensions": {
-    "uni-cloud-jql": {}
-  }
-}

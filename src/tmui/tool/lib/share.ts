@@ -13,7 +13,6 @@ export const share = function (args:wxshareConfig={}) {
 		})
 		
 	}
-	console.log(sapp,'------------------------');
 	const sTimeline = (args:wxshareConfig={})=>{
 		onShareTimeline((args:wxshareConfig={})=>{
 			return {...defaultWxshareConfig,...args}

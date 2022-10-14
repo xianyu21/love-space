@@ -1,7 +1,0 @@
-{
-  "name": "config_map",
-  "dependencies": {},
-  "extensions": {
-    "uni-cloud-jql": {}
-  }
-}
