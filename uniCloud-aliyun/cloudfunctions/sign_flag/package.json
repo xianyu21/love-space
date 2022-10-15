@@ -1,0 +1,7 @@
+{
+  "name": "sign_flag",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
