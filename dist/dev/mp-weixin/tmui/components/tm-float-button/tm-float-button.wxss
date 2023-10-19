@@ -1,0 +1,16 @@
+
+.scale.data-v-77075966 {
+	animation: scale-77075966 0.34s ease;
+}
+@keyframes scale-77075966 {
+0% {
+		transform: scale(0);
+}
+40% {
+		transform: scale(1.2);
+}
+100% {
+		transform: scale(1);
+}
+}
+

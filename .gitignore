@@ -14,5 +14,4 @@ unpackage/dist/dev/
 
 # python
 *.pyc
-/dist
-/node_modules
+/uniCloud-aliyun

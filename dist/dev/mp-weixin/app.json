@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/login",
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
+  },
+  "darkmode": true,
+  "usingComponents": {}
+}

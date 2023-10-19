@@ -1,0 +1,82 @@
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/* uni.scss */
+.login-card.data-v-3b4ac9ad {
+  min-height: 100vh;
+  background: rgba(83, 70, 134, 0.14);
+  padding: 30px 12px;
+}
+.login-card .login-main.data-v-3b4ac9ad {
+  width: 450px;
+  padding: 40px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
+  margin: 0 auto;
+  background-color: #ffffff;
+}
+.login-card .col-form-label.data-v-3b4ac9ad {
+  letter-spacing: 0.4px;
+}
+.login-card .form-control.data-v-3b4ac9ad {
+  height: 47px;
+  line-height: 47px;
+}
+.login-card .login-social-title.data-v-3b4ac9ad {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.login-card .login-social-title.data-v-3b4ac9ad:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(83, 70, 134, 0.1019607843);
+  top: 10px;
+  z-index: -1;
+  right: 0;
+}
+.login-card .login-social-title h3.data-v-3b4ac9ad {
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  color: #9993B4;
+  background-color: #ffffff;
+  padding-left: 25px;
+  padding-right: 25px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.login-card .login-social div.data-v-3b4ac9ad {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(83, 70, 134, 0.1019607843);
+  background-color: rgba(83, 70, 134, 0.05);
+}
+.login-card .login-social div.data-v-3b4ac9ad:hover {
+  background-color: #534686;
+}
+.login-card .login-social div:hover a.data-v-3b4ac9ad {
+  color: #ffffff !important;
+}
+.login-card .login-social div a.data-v-3b4ac9ad {
+  width: auto;
+  color: #534686;
+}

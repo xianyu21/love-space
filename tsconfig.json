@@ -9,23 +9,19 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "rootDir": "./src",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "types": [
-      "@dcloudio/types"
-    ]
+    "lib": ["esnext", "dom"],
+    "types": ["@dcloudio/types","@types/node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
-    "tmui/**/*.ts",
-    "tmui/**/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "src/**/*.nvue",
-    "./src/*"
-  ]
+    "./src/*.vue",
+    "./src/**/*.vue",
+    "./src/*.nvue",
+    "./src/**/*.nvue",
+    "./src/*.ts",
+    "./src/*.d.ts",
+    "./src/**/*.ts",
+    ]
 }

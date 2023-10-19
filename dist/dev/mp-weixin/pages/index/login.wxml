@@ -1,0 +1,1 @@
+<view class="login-card ga-flex ga-ai-c ga-j-c data-v-3b4ac9ad"><view class="ga-flex ga-flex-column ga-ai-c data-v-3b4ac9ad"><view class="data-v-3b4ac9ad" bindtap="{{b}}">{{a}}</view></view></view>
