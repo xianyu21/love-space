@@ -166,7 +166,8 @@ export default {
 			setDomDarkOrWhite();
 			// #endif
 			obj.path = obj.path[0] == "/" ? obj.path.substr(1) : obj.path
-			useTmRouterBefore(obj)
+			// useTmRouterBefore(obj)
+			options.router?.useTmRouterBefore ? options.router?.useTmRouterBefore(obj) : useTmRouterBefore(obj)
 		}
 
 		options = util.deepObjectMerge($tm.config, options)

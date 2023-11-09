@@ -30,6 +30,11 @@ export const propsdetail = {
 		type: Number,
 		default: 1000 * 5
 	},
+	/** 开启下拉刷新  值为 `true` 表示开启下拉刷新，值为 `false` 表示关闭下拉刷新*/
+	refresher: {
+		type: [Boolean],
+		default: true
+	},
 	/** 组件状态，值为 `true` 表示下拉状态，值为 `false` 表示收起状态 */
 	modelValue: {
 		type: [Boolean],

@@ -23,7 +23,7 @@
 			:mask="false"
 			:zIndex="props.zIndex"
 		>
-			<keyborad-number
+			<keyboard-number
 				@success="emits('success', $event)"
 				:maxLength="_maxLength"
 				:showInputContent="props.showInputContent"
@@ -39,8 +39,8 @@
 				:dark="isDark"
 				class="flex-1"
 				:title="props.title"
-			></keyborad-number>
-			<keyborad-pass
+			></keyboard-number>
+			<keyboard-pass
 				@success="emits('success', $event)"
 				:maxLength="_maxLength"
 				:showInputContent="props.showInputContent"
@@ -55,8 +55,8 @@
 				:dark="isDark"
 				class="flex-1"
 				:title="props.title"
-			></keyborad-pass>
-			<keyborad-car
+			></keyboard-pass>
+			<keyboard-car
 				@success="emits('success', $event)"
 				:maxLength="_maxLength"
 				:showInputContent="props.showInputContent"
@@ -71,8 +71,8 @@
 				:dark="isDark"
 				class="flex-1"
 				:title="props.title"
-			></keyborad-car>
-			<keyborad-card
+			></keyboard-car>
+			<keyboard-card
 				@success="emits('success', $event)"
 				:maxLength="_maxLength"
 				:showInputContent="props.showInputContent"
@@ -87,7 +87,7 @@
 				:dark="isDark"
 				class="flex-1"
 				:title="props.title"
-			></keyborad-card>
+			></keyboard-card>
 		</tm-drawer>
 	</view>
 </template>
@@ -95,14 +95,16 @@
 import { ref, computed, watch, toRaw, getCurrentInstance, nextTick, inject, PropType } from 'vue'
 import { custom_props, computedDark } from '../../tool/lib/minxs'
 import tmDrawer from '../tm-drawer/tm-drawer.vue'
-import keyboradNumber from './keyborad-number.vue'
-import keyboradCard from './keyborad-card.vue'
-import keyboradPass from './keyborad-pass.vue'
-import keyboradCar from './keyborad-car.vue'
+import keyboardNumber from './keyboard-number.vue'
+import keyboardCard from './keyboard-card.vue'
+import keyboardPass from './keyboard-pass.vue'
+import keyboardCar from './keyboard-car.vue'
 import { useTmpiniaStore } from '../../tool/lib/tmpinia'
 const store = useTmpiniaStore()
 const emits = defineEmits(['change', 'confirm', 'update:show', 'update:modelValue', 'success'])
 const drawer = ref<InstanceType<typeof tmDrawer> | null>(null)
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 const props = defineProps({
 	...custom_props,
 	followTheme: {
@@ -173,19 +175,8 @@ const isDark = computed(() => computedDark(props, tmcfg.value))
 const showPop = ref(props?.show ?? false)
 const _value = ref(props?.defaultValue ?? '')
 const _maxLength = computed(() => props.maxLength)
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
+const sysinfo = useWindowInfo()
+
 const _typemodel = computed(() => props.type)
 watch([() => props.show, () => props.maxLength], () => {
 	showPop.value = props.show
@@ -247,6 +238,6 @@ function confirm() {
 }
 
 const dHeight = computed(() => {
-	return 520 + sysinfo.value.bottom
+	return 490 + sysinfo.bottomSafe
 })
 </script>

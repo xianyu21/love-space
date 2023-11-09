@@ -25,7 +25,7 @@
 						:follow-dark="false"
 						:dark="_dark"
 						:round="2"
-						:height="100"
+						:height="90"
 						_class="flex-center"
 						:padding="[0, 0]"
 						:margin="[4, 4]"
@@ -44,7 +44,7 @@
 				<tmSheet
 					hover-class="opacity-5 keywordBoradAni"
 					no-level
-					:height="100"
+					:height="90"
 					@click="del"
 					:follow-theme="false"
 					:follow-dark="false"
@@ -62,7 +62,7 @@
 				<tmSheet
 					hover-class="opacity-5 keywordBoradAni"
 					no-level
-					:height="100"
+					:height="90"
 					v-if="!changeChart"
 					@click="changeEnUp"
 					:follow-theme="false"
@@ -81,7 +81,7 @@
 				<tmSheet
 					hover-class="opacity-5 keywordBoradAni"
 					no-level
-					:height="100"
+					:height="90"
 					@click="changeEnChart"
 					:follow-theme="false"
 					:follow-dark="false"
@@ -97,7 +97,7 @@
 					<tmText :userInteractionEnabled="false" :font-size="32" _class="text-weight-b" :label="!changeChart ? ',.' : 'En'"></tmText>
 				</tmSheet>
 
-				<view class="flex-1 flex flex-row">
+				<view class="flex-1 flex flex-row flex-shrink">
 					<tmSheet
 						hover-class="opacity-5 keywordBoradAni"
 						no-level
@@ -105,6 +105,7 @@
 						:follow-theme="props.followTheme"
 						:follow-dark="false"
 						:dark="_dark"
+						:height="90"
 						:color="props.color"
 						:round="2"
 						_class="flex-center "

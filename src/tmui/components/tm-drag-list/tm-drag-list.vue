@@ -29,12 +29,13 @@
 					class="flex-1"
 					:margin="[0, 0]"
 					:padding="[0, 0]"
+					@click="onClick(index)"
 				>
 					<view class="flex flex-row flex-row-center-start pl-12" :style="{ height: h - 1 + 'px' }">
 						<view v-if="item['icon']" class="flex-shrink fulled-height flex-center">
 							<tm-icon :color="item['color']" :name="item['icon']" :fontSize="40"></tm-icon>
 						</view>
-						<tm-text _class=" pl-24" :font-size="30" :label="item.text"></tm-text>
+						<tm-text _class=" pl-24" :font-size="30" :label="item[props.rangKey]"></tm-text>
 					</view>
 					<view
 						:style="{ height: h - 1 + 'px', width: '100rpx' }"
@@ -61,13 +62,11 @@
  * @description 在h5和pc端，点击右边区域即可触发拖动。在MP和APP端需要长按右边区域触发拖动排序。
  * @description 已知hack:在nvue端，因zIndex不起作用，导致前端组件移动时，可能会被后面渲染的列表覆盖，但不影响使用，只影响些许美观。
  */
-import { Ref, ref, nextTick, toRaw, onMounted, getCurrentInstance, PropType } from 'vue'
+import { Ref, ref, nextTick, toRaw, watch, getCurrentInstance, PropType } from 'vue'
 import tmIcon from '../tm-icon/tm-icon.vue'
 import tmSheet from '../tm-sheet/tm-sheet.vue'
 import tmText from '../tm-text/tm-text.vue'
 import { itemList } from './interface'
-import { watch } from 'vue'
-import { watchEffect } from 'vue'
 const props = defineProps({
 	disabled: {
 		type: [String, Boolean],
@@ -100,7 +99,7 @@ const props = defineProps({
 		default: 'white'
 	}
 })
-const emits = defineEmits(['change'])
+const emits = defineEmits(['change','click'])
 const w = ref(0)
 const h = ref(0)
 const totalH = ref(0)
@@ -114,13 +113,12 @@ const isNvue = ref(false)
 // #ifdef APP-NVUE
 isNvue.value = true
 // #endif
-// tm-dragList
-// onMounted(() => jishunTopData());
+
 watch(
 	() => props.list,
 	() => {
 		jishunTopData()
-		console.log(8)
+	
 	},
 	{
 		deep: true,
@@ -145,6 +143,9 @@ function jishunTopData() {
 		listData.value = [...nowList]
 		new_item = [...nowList]
 	})
+}
+function onClick(index:number){
+	emits('click',index)
 }
 function m_start_longpress(index: number) {
 	endDrage.value = false

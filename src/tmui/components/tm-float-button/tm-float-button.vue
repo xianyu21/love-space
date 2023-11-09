@@ -1,5 +1,5 @@
 <template>
-	<view class="fixed zIndex-12 flex" :style="_pos?.parent">
+	<view class="fixed flex" :style="[_pos?.parent,{zIndex:402}]">
 		<!-- 主按钮。 -->
 		<view :style="{ width: props.width + 'rpx', height: props.height + 'rpx' }" class="flex flex-row flex-row-center-center">
 			<slot>
@@ -47,7 +47,7 @@
 		<!-- 子按钮。 -->
 		<view
 			v-if="showActions && _actionsItem.length > 0"
-			class="fixed zIndex-12 flex"
+			class="fixed zIndex-12"
 			:style="_pos?.children"
 			:userInteractionEnabled="showActions"
 		>
@@ -116,6 +116,8 @@ import tmSheet from '../tm-sheet/tm-sheet.vue'
 import tmIcon from '../tm-icon/tm-icon.vue'
 import tmText from '../tm-text/tm-text.vue'
 import tmButton from '../tm-button/tm-button.vue'
+import { useWindowInfo } from '../../tool/useFun/useWindowInfo'
+
 // #ifdef APP-PLUS-NVUE
 const animation = uni.requireNativePlugin('animation')
 // #endif
@@ -189,21 +191,9 @@ const props = defineProps({
 	}
 })
 
-const sysinfo = inject(
-	'tmuiSysInfo',
-	computed(() => {
-		return {
-			bottom: 0,
-			height: 750,
-			width: uni.upx2px(750),
-			top: 0,
-			isCustomHeader: false,
-			sysinfo: null
-		}
-	})
-)
-const windowWidth = computed(() => sysinfo.value.width)
-const windowTop = computed(() => sysinfo.value.top)
+const sysinfo = useWindowInfo()
+const windowWidth = computed(() => sysinfo.width)
+const windowTop = computed(() => sysinfo.top)
 const proxy = getCurrentInstance()?.proxy ?? null
 const isH5 = ref(false)
 // #ifdef H5
@@ -221,7 +211,7 @@ const centerPosLeft = computed(() => {
 	let ps = (windowWidth.value - uni.upx2px(props.width * 2)) / 2 + _offset.value[0] * 2
 	return ps
 })
-const btn_size = computed(() => uni.upx2px(props.width))
+
 const _btn = computed(() => {
 	return {
 		icon: 'tmicon-plus',
