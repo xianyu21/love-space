@@ -1,11 +1,13 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
 const tmui_tool_lib_tmpinia = require("../../tool/lib/tmpinia.js");
-const tmui_tool_function_util = require("../../tool/function/util.js");
 const tmui_tool_lib_minxs = require("../../tool/lib/minxs.js");
+const tmui_tool_useFun_useTheme = require("../../tool/useFun/useTheme.js");
+const tmui_tool_useFun_useWindowInfo = require("../../tool/useFun/useWindowInfo.js");
 require("../../tool/theme/theme.js");
 require("../../tool/theme/colortool.js");
 require("../../tool/lib/interface.js");
+require("../../tool/function/util.js");
 require("../../tool/function/preview.js");
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "tm-app",
@@ -35,6 +37,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       type: String,
       default: ""
     },
+    /** 背景层div的样式 */
+    bgStyle: {
+      type: String,
+      default: ""
+    },
     //应用的背景颜色。
     color: {
       type: String,
@@ -60,48 +67,48 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         };
       }
     },
-    showMenu: {
+    /**是否自动修改系统自带的navbar的主题。 */
+    navbarDarkAuto: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
-  emits: ["update:showMenu"],
-  setup(__props, { expose, emit: emits }) {
-    var _a;
+  setup(__props, { expose }) {
     const props = __props;
     const store = tmui_tool_lib_tmpinia.useTmpiniaStore();
-    const proxy = ((_a = common_vendor.getCurrentInstance()) == null ? void 0 : _a.proxy) ?? null;
     const tmcfg = common_vendor.computed(() => store.tmStore);
     const isSetThemeOk = common_vendor.ref(false);
-    const isDark = common_vendor.computed(() => tmcfg.value.dark);
-    const tmcomputed = common_vendor.computed(() => tmui_tool_lib_minxs.computedTheme(props, isDark.value, tmcfg.value));
-    common_vendor.ref(props.showMenu);
-    const sysinfo = tmui_tool_function_util.getWindow();
-    const sysinfoRef = common_vendor.ref(sysinfo);
-    const _bgImg = common_vendor.computed(() => props.bgImg);
-    const _tranparent = common_vendor.computed(() => props.transparent || props.transprent);
-    const view_width = common_vendor.ref(sysinfo.width);
-    let view_height = common_vendor.ref(sysinfo.height);
+    const {
+      dark,
+      isNvue,
+      customCSSStyle,
+      customClass,
+      parentClass,
+      transparent,
+      _props,
+      proxy,
+      blur,
+      round,
+      margin,
+      padding,
+      theme
+    } = tmui_tool_useFun_useTheme.useTheme(common_vendor.computed(() => props), tmcfg);
+    const tmcomputed = theme();
     let isTabbarPage = false;
     let nowPage = getCurrentPages().pop();
-    common_vendor.computed(() => {
-      if (props.blur === true && isDark.value)
-        return "dark";
-      if (props.blur === true && !isDark.value)
-        return "extralight";
-      return "none";
-    });
+    const _bgStyle = common_vendor.computed(() => props.bgStyle);
+    let winSize = tmui_tool_useFun_useWindowInfo.useWindowInfo();
     let appConfig = common_vendor.ref({
-      width: view_width,
-      height: view_height,
+      width: winSize.width,
+      height: winSize.height,
       theme: tmcomputed.value.backgroundColor,
       bgImg: props.bgImg,
-      dark: isDark.value
+      dark: dark.value
     });
     common_vendor.onLoad((opts) => {
-      var _a2;
+      var _a;
       try {
-        (_a2 = store.tmuiConfig.router) == null ? void 0 : _a2.useTmRouterAfter({
+        (_a = store.tmuiConfig.router) == null ? void 0 : _a.useTmRouterAfter({
           path: (nowPage == null ? void 0 : nowPage.route) ?? "",
           opts,
           context: proxy ?? null
@@ -111,11 +118,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     common_vendor.onMounted(() => {
       _onInit();
-      sysinfoRef.value = tmui_tool_function_util.getWindow();
     });
     function _onInit() {
-      var _a2;
-      let barLit = ((_a2 = common_vendor.index.$tm.tabBar) == null ? void 0 : _a2.list) ?? [];
+      var _a;
+      let barLit = ((_a = common_vendor.index.$tm.tabBar) == null ? void 0 : _a.list) ?? [];
       for (let i = 0; i < barLit.length; i++) {
         if ((nowPage == null ? void 0 : nowPage.route) == barLit[i].pagePath) {
           isTabbarPage = true;
@@ -123,12 +129,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }
       }
       if (store.tmuiConfig.autoDark) {
-        osChangeTheme(sysinfo.sysinfo.osTheme);
+        osChangeTheme(common_vendor.index.getSystemInfoSync().osTheme);
       } else {
         setAppStyle();
       }
     }
-    common_vendor.watch([() => tmcfg.value.color, isDark], () => {
+    common_vendor.watch([() => tmcfg.value.color, dark], () => {
       isSetThemeOk.value = false;
       setAppStyle();
     });
@@ -136,9 +142,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       appConfig.value.theme = tmcomputed.value.backgroundColor;
     });
     function setAppStyle() {
-      var _a2, _b, _c;
-      if (isDark.value) {
-        appConfig.value.theme = ((_c = (_b = (_a2 = store.tmuiConfig) == null ? void 0 : _a2.themeConfig) == null ? void 0 : _b.dark) == null ? void 0 : _c.bodyColor) || props.darkColor;
+      var _a, _b, _c;
+      if (dark.value) {
+        appConfig.value.theme = ((_c = (_b = (_a = store.tmuiConfig) == null ? void 0 : _a.themeConfig) == null ? void 0 : _b.dark) == null ? void 0 : _c.bodyColor) || props.darkColor;
       } else {
         appConfig.value.theme = tmcomputed.value.backgroundColor;
       }
@@ -148,9 +154,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         backgroundColorTop: appConfig.value.theme
       }).catch((error) => {
       });
-      if (isDark.value) {
+      if (dark.value) {
         try {
-          if (!common_vendor.index.$tm.isOpenDarkModel) {
+          if (!common_vendor.index.$tm.isOpenDarkModel && props.navbarDarkAuto) {
             common_vendor.index.setNavigationBarColor({
               backgroundColor: "#000000",
               frontColor: "#ffffff"
@@ -180,11 +186,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             tcolor = tcolor.toLocaleLowerCase();
             tcolor = tcolor == "black" ? "#000000" : tcolor;
             tcolor = tcolor == "white" ? "#ffffff" : tcolor;
-            common_vendor.index.setNavigationBarColor({
-              backgroundColor: nowPageConfigs[0].navigationBarBackgroundColor,
-              frontColor: tcolor
-            }).catch((error) => {
-            });
+            if (props.navbarDarkAuto) {
+              common_vendor.index.setNavigationBarColor({
+                backgroundColor: nowPageConfigs[0].navigationBarBackgroundColor,
+                frontColor: tcolor
+              }).catch((error) => {
+              });
+            }
             common_vendor.index.setStorageSync(
               "tmuiNavStyle",
               JSON.stringify({
@@ -193,11 +201,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
               })
             );
           } else if (!common_vendor.index.$tm.isOpenDarkModel) {
-            common_vendor.index.setNavigationBarColor({
-              backgroundColor: props.navbar.background,
-              frontColor: props.navbar.fontColor
-            }).catch((error) => {
-            });
+            if (props.navbarDarkAuto) {
+              common_vendor.index.setNavigationBarColor({
+                backgroundColor: props.navbar.background,
+                frontColor: props.navbar.fontColor
+              }).catch((error) => {
+              });
+            }
             common_vendor.index.setStorageSync(
               "tmuiNavStyle",
               JSON.stringify({
@@ -226,10 +236,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     function setTheme(colorName) {
       store.setTmVuetifyTheme(colorName);
     }
-    function setDark(dark) {
-      let maindark = !isDark.value;
-      if (typeof dark !== "undefined" && typeof dark == "boolean") {
-        maindark = dark;
+    function setDark(darks) {
+      let maindark = !dark.value;
+      if (typeof darks !== "undefined" && typeof darks == "boolean") {
+        maindark = darks;
       }
       appConfig.value.dark = maindark;
       store.setTmVuetifyDark(maindark);
@@ -252,10 +262,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }
     }
     common_vendor.provide(
-      "tmuiSysInfo",
-      common_vendor.computed(() => sysinfoRef.value)
-    );
-    common_vendor.provide(
       "appTextColor",
       common_vendor.computed(() => tmcomputed.value.textColor)
     );
@@ -267,11 +273,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     return (_ctx, _cache) => {
       return {
         a: common_vendor.s(common_vendor.unref(appConfig).theme ? {
-          background: common_vendor.unref(_tranparent) ? "" : common_vendor.unref(appConfig).theme
+          background: common_vendor.unref(transparent) ? "" : common_vendor.unref(appConfig).theme
         } : ""),
-        b: common_vendor.s(common_vendor.unref(_bgImg) ? {
-          backgroundImage: `url(${common_vendor.unref(_bgImg)})`
-        } : "")
+        b: common_vendor.s(common_vendor.unref(_props).bgImg ? {
+          backgroundImage: `url(${common_vendor.unref(_props).bgImg})`
+        } : ""),
+        c: common_vendor.s(common_vendor.unref(_bgStyle))
       };
     };
   }

@@ -2,6 +2,7 @@
 const common_vendor = require("../../../common/vendor.js");
 const tmui_tool_lib_language = require("../../tool/lib/language.js");
 const tmui_tool_lib_tmpinia = require("../../tool/lib/tmpinia.js");
+const tmui_tool_useFun_useWindowInfo = require("../../tool/useFun/useWindowInfo.js");
 require("../../tool/theme/theme.js");
 require("../../tool/theme/colortool.js");
 require("../../tool/lib/interface.js");
@@ -66,21 +67,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.ref(null);
     common_vendor.ref(null);
     ((_a = common_vendor.getCurrentInstance()) == null ? void 0 : _a.proxy) ?? null;
-    const sysinfo = common_vendor.inject(
-      "tmuiSysInfo",
-      common_vendor.computed(() => {
-        return {
-          bottom: 0,
-          height: 750,
-          width: common_vendor.index.upx2px(750),
-          top: 0,
-          isCustomHeader: false,
-          sysinfo: null
-        };
-      })
-    );
-    const _width = common_vendor.computed(() => sysinfo.value.width);
-    const _height = common_vendor.computed(() => sysinfo.value.height);
+    const sysinfo = tmui_tool_useFun_useWindowInfo.useWindowInfo();
     const _lines = common_vendor.computed(() => props.lines);
     let isNvue = common_vendor.ref(false);
     const dur = common_vendor.ref(props.duration);
@@ -224,9 +211,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         })
       } : {}, {
         h: common_vendor.n(showMask.value ? "overflowMask" : "overflowMaskNo"),
-        i: common_vendor.unref(_width) + "px",
-        j: common_vendor.unref(_height) + "px",
-        k: common_vendor.unref(sysinfo).top + "px"
+        i: common_vendor.unref(sysinfo).width + "px",
+        j: common_vendor.unref(sysinfo).height + "px",
+        k: 0 + "px"
       }) : {});
     };
   }

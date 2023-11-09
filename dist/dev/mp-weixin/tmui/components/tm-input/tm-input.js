@@ -26,6 +26,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       type: String,
       default: "grey-4"
     },
+    searchBgColor: {
+      type: String,
+      default: "primary"
+    },
     searchFontColor: {
       type: String,
       default: ""
@@ -46,6 +50,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     focusColor: {
       type: String,
       default: "primary"
+    },
+    /** 清除按钮，显示密码按钮的颜色 */
+    clearAndEyeColor: {
+      type: String,
+      default: ""
     },
     //默认使用自动配色
     fontColor: {
@@ -240,6 +249,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     layoutAlign: {
       type: String,
       default: "flex-row-top-start"
+    },
+    customicon: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ["focus", "blur", "confirm", "input", "update:modelValue", "clear", "search", "keyboardheightchange", "click"],
@@ -382,7 +395,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           _style: "transition:color 0.24s",
           ["font-size"]: common_vendor.unref(propsDetail).fontSize,
           color: props.prefixColor,
-          name: common_vendor.unref(propsDetail).prefix
+          name: common_vendor.unref(propsDetail).prefix,
+          customicon: props.customicon
         })
       } : {}, {
         d: common_vendor.unref(propsDetail).prefixLabel
@@ -550,9 +564,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         bm: common_vendor.unref(propsDetail).showClear && common_vendor.unref(_valueLenChar) > 0
       }, common_vendor.unref(propsDetail).showClear && common_vendor.unref(_valueLenChar) > 0 ? {
         bn: common_vendor.p({
+          customicon: props.customicon,
           _style: "transition:color 0.24s",
           userInteractionEnabled: false,
           ["font-size"]: common_vendor.unref(propsDetail).fontSize,
+          color: props.clearAndEyeColor,
           name: "tmicon-times-circle-fill"
         }),
         bo: common_vendor.o(clearBtn)
@@ -568,6 +584,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         br: common_vendor.unref(propsDetail).suffix
       }, common_vendor.unref(propsDetail).suffix ? {
         bs: common_vendor.p({
+          customicon: props.customicon,
           _style: "transition:color 0.24s",
           ["font-size"]: common_vendor.unref(propsDetail).fontSize,
           color: props.suffixColor,
@@ -586,6 +603,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         bw: common_vendor.unref(showPasswordIcon)
       }, common_vendor.unref(showPasswordIcon) ? {
         bx: common_vendor.p({
+          color: props.clearAndEyeColor,
           _style: "transition:color 0.24s",
           userInteractionEnabled: false,
           ["font-size"]: common_vendor.unref(propsDetail).fontSize,
@@ -625,9 +643,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }, common_vendor.unref(propsDetail).search || common_vendor.unref(propsDetail).searchLabel ? {
         bJ: common_vendor.o(searchClick),
         bK: common_vendor.p({
+          round: props.round,
           width: props.searchWidth,
           followTheme: props.followTheme,
-          color: props.focusColor,
+          color: props.searchBgColor,
           ["font-size"]: 24,
           height: common_vendor.unref(_height) - 11,
           padding: [16, 0],

@@ -489,6 +489,40 @@ function requestAnimationFrame(callback) {
 function cancelAnimationFrame(id) {
   clearTimeout(id);
 }
+function valToMarginAr(val) {
+  let ar = [];
+  if (typeof val === "string" && val) {
+    ar = [Number(val)];
+  } else if (typeof val === "number" && isNaN(Number(val))) {
+    ar = [val];
+  } else if (typeof val === "undefined" || typeof val === null || val === "" || val === void 0) {
+    val = [0];
+  } else if (Array.isArray(val)) {
+    ar = val.map((el) => Number(el));
+  }
+  if (ar.length == 1) {
+    ar = new Array(4).fill(ar[0]);
+  } else if (ar.length == 2) {
+    ar = [...ar, ...ar];
+  } else if (ar.length == 3) {
+    ar = [...ar, 0];
+  }
+  return ar;
+}
+function valToRoundStrClass(val) {
+  let dstr = "";
+  if (typeof val == "number")
+    return "round-" + val;
+  if (val.length == 1)
+    return "round-" + val;
+  if (val.length == 2)
+    return `round-tl-${val[0]} round-tr-${val[1]}`;
+  if (val.length == 3)
+    return `round-tl-${val[0]} round-tr-${val[1]} round-br-${val[2]} `;
+  if (val.length == 4)
+    return `round-tl-${val[0]} round-tr-${val[1]} round-br-${val[2]}  round-bl-${val[2]}`;
+  return dstr;
+}
 const util = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   callPhone,
@@ -532,10 +566,13 @@ const util = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty
   timeMuch,
   toast,
   topx,
-  torpx
+  torpx,
+  valToMarginAr,
+  valToRoundStrClass
 }, Symbol.toStringTag, { value: "Module" }));
 exports.deepObjectMerge = deepObjectMerge;
 exports.getCookie = getCookie;
-exports.getWindow = getWindow;
 exports.setCookie = setCookie;
 exports.util = util;
+exports.valToMarginAr = valToMarginAr;
+exports.valToRoundStrClass = valToRoundStrClass;

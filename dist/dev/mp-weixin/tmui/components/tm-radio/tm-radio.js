@@ -5,19 +5,15 @@ require("../../tool/theme/theme.js");
 require("../../tool/theme/colortool.js");
 require("../../tool/lib/interface.js");
 if (!Math) {
-  (tmIcon + tmTranslate + tmSheet + tmText)();
+  (tmIcon + tmText + tmSheet)();
 }
 const tmSheet = () => "../tm-sheet/tm-sheet.js";
 const tmIcon = () => "../tm-icon/tm-icon.js";
 const tmText = () => "../tm-text/tm-text.js";
-const tmTranslate = () => "../tm-translate/tm-translate.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
-  __name: "tm-checkbox",
+  __name: "tm-radio",
   props: {
     ...tmui_tool_lib_minxs.custom_props,
-    /**
-     * 是否跟随全局主题的变换而变换
-     */
     followTheme: {
       type: [Boolean, String],
       default: true
@@ -25,11 +21,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     size: {
       type: Number,
       default: 42
-    },
-    //为false时将隐藏所有内容，只显示插槽内容，但点击插槽还是会触发选选择状态。
-    custom: {
-      type: Boolean,
-      default: true
     },
     outlined: {
       type: Boolean,
@@ -39,9 +30,18 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       type: Boolean,
       default: false
     },
+    //为false时将隐藏所有内容，只显示插槽内容，但点击插槽还是会触发选选择状态。
+    custom: {
+      type: Boolean,
+      default: true
+    },
+    color: {
+      type: String,
+      default: "primary"
+    },
     round: {
       type: Number,
-      default: 2
+      default: 24
     },
     border: {
       type: Number,
@@ -49,15 +49,15 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     },
     //选项值，选中后返回的值。
     value: {
-      type: [String, Number, Boolean],
-      default: true
+      type: [String, Number, Boolean, null],
+      default: ""
     },
     /**
      * v-model双向绑定，如果选中后以数组形式给出value值。
      */
     modelValue: {
-      type: [String, Number, Boolean],
-      default: false
+      type: [String, Number, Boolean, null],
+      default: ""
     },
     label: {
       type: [String, Number],
@@ -81,17 +81,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     },
     fontSize: {
       type: Number,
-      default: 28
-    },
-    //半选中状态。
-    indeterminate: {
-      type: [Boolean, String],
-      default: false
-    },
-    //是否关闭动画 ，对于大批量的数据时，建议关闭动画。
-    closeAni: {
-      type: [Boolean, String],
-      default: true
+      default: 26
     },
     /**
      * 自定义选中的图标名称
@@ -110,22 +100,22 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
   },
   emits: ["update:modelValue", "change", "click"],
-  setup(__props, { expose, emit: emits }) {
+  setup(__props, { emit: emits }) {
     var _a;
     const props = __props;
-    common_vendor.ref(null);
     const proxy = ((_a = common_vendor.getCurrentInstance()) == null ? void 0 : _a.proxy) ?? null;
+    common_vendor.ref(false);
     const _checked = common_vendor.ref(props.defaultChecked ?? false);
     const _groupCheckedVal = common_vendor.inject(
-      "tmCheckedBoxVal",
-      common_vendor.computed(() => [])
+      "tmRadioBoxVal",
+      common_vendor.computed(() => "")
     );
     const tmCheckedBoxDisabled = common_vendor.inject(
-      "tmCheckedBoxDisabled",
+      "tmRadioBoxDisabled",
       common_vendor.computed(() => false)
     );
-    const tmCheckedBoxMax = common_vendor.inject(
-      "tmCheckedBoxMax",
+    const _is_radio = common_vendor.inject(
+      "tmRadioBoxModel",
       common_vendor.computed(() => false)
     );
     const tmCheckedBoxDir = common_vendor.inject(
@@ -139,7 +129,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       if (props.modelValue === props.value && typeof props.value !== "undefined" && props.value !== "" && props.modelValue !== "") {
         checked_val = true;
       }
-      if (val_self.includes(props.value)) {
+      if (props.value === val_self && val_self !== "" && props.value !== "") {
         checked_val = true;
       }
       return checked_val;
@@ -150,15 +140,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     async function hanlerClick() {
       emits("click");
-      if (_disabled.value) {
-        return;
-      }
-      if (tmCheckedBoxMax.value && !_checked.value) {
-        common_vendor.index.showToast({ title: "超最大选择", icon: "error" });
+      if (_disabled.value || _checked.value) {
         return;
       }
       if (typeof props.beforeChecked === "function") {
-        common_vendor.index.showLoading({ title: "...", mask: true });
+        common_vendor.index.showLoading({
+          title: "...",
+          mask: true
+        });
         let p = await props.beforeChecked(props.modelValue, props.value);
         if (typeof p === "function") {
           p = await p(props.modelValue, props.value);
@@ -167,19 +156,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         if (!p)
           return;
       }
-      _checked.value = !_checked.value;
-      if (_checked.value) {
-        emits("update:modelValue", props.value);
-        if (parent) {
-          parent.addKey(props.value);
-        }
-      } else {
-        emits("update:modelValue", false);
-        if (parent) {
-          parent.delKey(props.value);
-        }
+      _checked.value = true;
+      if (parent) {
+        parent.addKey(props.value);
       }
-      emits("change", _checked.value);
+      emits("update:modelValue", props.value);
+      common_vendor.nextTick$1(() => {
+        emits("change", _checked.value);
+      });
     }
     common_vendor.watch(
       [() => props.modelValue, () => props.value, () => _groupCheckedVal.value],
@@ -188,10 +172,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       },
       { deep: true }
     );
-    _groupCheckedVal.value;
     let parent = proxy == null ? void 0 : proxy.$parent;
     while (parent) {
-      if ((parent == null ? void 0 : parent.checkBoxkeyId) == "tmCheckBoxGroup" || !parent) {
+      if ((parent == null ? void 0 : parent.checkBoxkeyId) == "tmRadioBoxGroup" || !parent) {
         break;
       } else {
         parent = (parent == null ? void 0 : parent.$parent) ?? void 0;
@@ -200,95 +183,73 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     if (parent) {
       parent.pushKey(props.value);
     }
-    expose({ hanlerClick });
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: props.custom
       }, props.custom ? common_vendor.e({
-        b: !props.closeAni
-      }, !props.closeAni ? common_vendor.e({
-        c: _checked.value && !props.indeterminate
-      }, _checked.value && !props.indeterminate ? {
-        d: common_vendor.p({
+        b: _checked.value && common_vendor.unref(_is_radio)
+      }, _checked.value && common_vendor.unref(_is_radio) ? {
+        c: common_vendor.p({
           ["font-size"]: props.size * 0.6,
+          ["line-height"]: -1,
           name: props.icon
         }),
-        e: common_vendor.p({
-          duration: 100,
-          name: "zoom"
-        })
+        d: props.size - props.border * 2 + "rpx",
+        e: props.size - props.border * 2 + "rpx"
       } : {}, {
-        f: props.indeterminate
-      }, props.indeterminate ? {
+        f: !common_vendor.unref(_is_radio)
+      }, !common_vendor.unref(_is_radio) ? {
         g: common_vendor.p({
-          ["font-size"]: props.size * 0.6,
-          name: "tmicon-minus"
-        }),
-        h: common_vendor.p({
-          duration: 100,
-          name: "zoom"
-        })
-      } : {}) : {}, {
-        i: props.closeAni
-      }, props.closeAni ? common_vendor.e({
-        j: _checked.value && !props.indeterminate
-      }, _checked.value && !props.indeterminate ? {
-        k: common_vendor.p({
-          ["font-size"]: props.size * 0.6,
-          name: props.icon
+          ["font-size"]: props.fontSize,
+          label: props.label
         })
       } : {}, {
-        l: props.indeterminate
-      }, props.indeterminate ? {
-        m: common_vendor.p({
-          ["font-size"]: props.size * 0.6,
-          name: "tmicon-minus"
-        })
-      } : {}) : {}, {
-        n: common_vendor.p({
+        h: common_vendor.p({
           parenClass: "flex-shrink",
           eventPenetrationEnabled: true,
-          userInteractionEnabled: false,
           linear: props.linear,
           linearDeep: props.linearDeep,
           followTheme: props.followTheme,
           followDark: props.followDark,
           dark: props.dark,
           shadow: props.shadow,
-          width: props.size,
-          height: props.size,
-          text: (!props.indeterminate && !_checked.value || common_vendor.unref(_disabled)) && !props.outlined,
+          userInteractionEnabled: false,
+          width: common_vendor.unref(_is_radio) ? props.size : 0,
+          height: common_vendor.unref(_is_radio) ? props.size : 0,
+          text: !_checked.value && !props.outlined,
           border: props.border,
-          borderStyle: props.borderStyle,
+          ["border-style"]: props.borderStyle,
           transprent: props.transprent,
-          padding: [0, 0],
-          margin: props.margin,
-          color: common_vendor.unref(_disabled) ? "white" : props.color,
+          outlined: props.outlined,
+          padding: common_vendor.unref(_is_radio) ? [0, 0] : [16, 10],
+          margin: common_vendor.unref(_is_radio) ? props.margin : [8, 8],
+          color: common_vendor.unref(_disabled) ? "grey-2" : props.color,
           round: props.round,
           _class: "flex-row flex-row-center-center",
-          outlined: props.outlined,
           _style: "transition:background-color 0.24s"
         })
       }) : {}, {
-        o: common_vendor.p({
+        i: common_vendor.unref(_is_radio)
+      }, common_vendor.unref(_is_radio) ? {
+        j: common_vendor.p({
           userInteractionEnabled: false,
           ["font-size"]: props.fontSize,
           label: props.label
-        }),
-        p: common_vendor.r("d", {
+        })
+      } : {}, {
+        k: common_vendor.r("d", {
           checked: {
             checked: _checked.value
-          },
-          style: "display:flex;flex-direction:column"
+          }
         }),
-        q: common_vendor.o(hanlerClick),
-        r: common_vendor.n(common_vendor.unref(tmCheckedBoxDir) == "customCol" && props.custom || common_vendor.unref(tmCheckedBoxDir) == "row" ? "flex flex-1 flex-row flex-row-center-start" : ""),
-        s: common_vendor.n(common_vendor.unref(_disabled) ? props.disabledClass : ""),
-        t: common_vendor.n(common_vendor.unref(tmCheckedBoxDir) == "row" ? "flex-row" : ""),
-        v: common_vendor.n(common_vendor.unref(tmCheckedBoxDir) == "customCol" ? "flex-1 flex-col" : "")
+        l: common_vendor.o(hanlerClick),
+        m: common_vendor.n(common_vendor.unref(tmCheckedBoxDir) == "customCol" && props.custom || common_vendor.unref(tmCheckedBoxDir) == "row" ? "flex flex-1 flex-row flex-row-center-start" : ""),
+        n: common_vendor.n(common_vendor.unref(_disabled) ? props.disabledClass : ""),
+        o: common_vendor.n(common_vendor.unref(tmCheckedBoxDir) == "row" ? "flex-row" : ""),
+        p: common_vendor.n(common_vendor.unref(tmCheckedBoxDir) == "customCol" ? "flex-1 flex-col" : "")
       });
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-checkbox/tm-checkbox.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-radio/tm-radio.vue"]]);
 wx.createComponent(Component);

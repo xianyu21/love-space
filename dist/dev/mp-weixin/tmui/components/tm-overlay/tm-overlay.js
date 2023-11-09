@@ -2,6 +2,7 @@
 const common_vendor = require("../../../common/vendor.js");
 const tmui_tool_lib_minxs = require("../../tool/lib/minxs.js");
 const tmui_tool_lib_tmpinia = require("../../tool/lib/tmpinia.js");
+const tmui_tool_useFun_useWindowInfo = require("../../tool/useFun/useWindowInfo.js");
 require("../../tool/theme/theme.js");
 require("../../tool/theme/colortool.js");
 require("../../tool/lib/interface.js");
@@ -65,22 +66,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     ((_a = common_vendor.getCurrentInstance()) == null ? void 0 : _a.proxy) ?? null;
     const customCSSStyle = tmui_tool_lib_minxs.computedStyle(props);
     const customClass = tmui_tool_lib_minxs.computedClass(props);
-    const sysinfo = common_vendor.inject(
-      "tmuiSysInfo",
-      common_vendor.computed(() => {
-        return {
-          bottom: 0,
-          height: 750,
-          width: common_vendor.index.upx2px(750),
-          top: 0,
-          isCustomHeader: false,
-          sysinfo: null
-        };
-      })
-    );
-    const width = common_vendor.computed(() => sysinfo.value.width);
-    const height = common_vendor.computed(() => sysinfo.value.height);
-    const top = common_vendor.computed(() => sysinfo.value.top);
+    const sysinfo = tmui_tool_useFun_useWindowInfo.useWindowInfo();
     common_vendor.ref(false);
     common_vendor.index.$tm.u.getUid(1);
     let timerId = NaN;
@@ -201,8 +187,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           width: "100%",
           height: "100%"
         } : {
-          width: common_vendor.unref(width) + "px",
-          height: common_vendor.unref(height) + "px"
+          width: common_vendor.unref(sysinfo).width + "px",
+          height: common_vendor.unref(sysinfo).height + "px"
         }),
         g: common_vendor.s({
           transitionDuration: props.duration + "ms"
@@ -218,8 +204,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           height: "100%",
           top: "0px"
         } : {
-          width: common_vendor.unref(width) + "px",
-          height: common_vendor.unref(height) + "px"
+          width: common_vendor.unref(sysinfo).width + "px",
+          height: common_vendor.unref(sysinfo).height + "px"
         }),
         o: common_vendor.s(common_vendor.unref(customCSSStyle)),
         p: common_vendor.s(_inContent.value && !isNvue.value ? {
@@ -228,9 +214,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           top: "0px",
           position: "absolute"
         } : {
-          width: common_vendor.unref(width) + "px",
-          height: common_vendor.unref(height) + "px",
-          top: common_vendor.unref(top) + "px",
+          width: common_vendor.unref(sysinfo).width + "px",
+          height: common_vendor.unref(sysinfo).height + "px",
+          top: 0 + "px",
           position: "fixed"
         }),
         q: common_vendor.s(__props.zIndex ? {

@@ -80,7 +80,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.t(common_vendor.unref(_label)),
+        a: common_vendor.t$1(common_vendor.unref(_label)),
         b: common_vendor.o(($event) => emits("click", $event)),
         c: __props.selectable,
         d: __props.selectable,

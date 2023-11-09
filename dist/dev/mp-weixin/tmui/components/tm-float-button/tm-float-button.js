@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
+const tmui_tool_useFun_useWindowInfo = require("../../tool/useFun/useWindowInfo.js");
 if (!Math) {
   (tmIcon + tmText + tmButton)();
 }
@@ -76,21 +77,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props, { emit: emits }) {
     var _a;
     const props = __props;
-    const sysinfo = common_vendor.inject(
-      "tmuiSysInfo",
-      common_vendor.computed(() => {
-        return {
-          bottom: 0,
-          height: 750,
-          width: common_vendor.index.upx2px(750),
-          top: 0,
-          isCustomHeader: false,
-          sysinfo: null
-        };
-      })
-    );
-    const windowWidth = common_vendor.computed(() => sysinfo.value.width);
-    common_vendor.computed(() => sysinfo.value.top);
+    const sysinfo = tmui_tool_useFun_useWindowInfo.useWindowInfo();
+    const windowWidth = common_vendor.computed(() => sysinfo.width);
+    common_vendor.computed(() => sysinfo.top);
     ((_a = common_vendor.getCurrentInstance()) == null ? void 0 : _a.proxy) ?? null;
     common_vendor.ref(false);
     const showActions = common_vendor.ref(props.showActions ?? false);
@@ -105,7 +94,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       let ps = (windowWidth.value - common_vendor.index.upx2px(props.width * 2)) / 2 + _offset.value[0] * 2;
       return ps;
     });
-    common_vendor.computed(() => common_vendor.index.upx2px(props.width));
     const _btn = common_vendor.computed(() => {
       return {
         icon: "tmicon-plus",
@@ -579,7 +567,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         s: common_vendor.s((_a2 = common_vendor.unref(_pos)) == null ? void 0 : _a2.children),
         t: showActions.value
       } : {}, {
-        v: common_vendor.s((_b = common_vendor.unref(_pos)) == null ? void 0 : _b.parent)
+        v: common_vendor.s((_b = common_vendor.unref(_pos)) == null ? void 0 : _b.parent),
+        w: common_vendor.s({
+          zIndex: 402
+        })
       });
     };
   }

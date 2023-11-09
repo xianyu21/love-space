@@ -2,6 +2,7 @@
 const common_vendor = require("../../../common/vendor.js");
 const tmui_tool_lib_minxs = require("../../tool/lib/minxs.js");
 const tmui_tool_lib_tmpinia = require("../../tool/lib/tmpinia.js");
+const tmui_tool_useFun_useTheme = require("../../tool/useFun/useTheme.js");
 require("../../tool/theme/theme.js");
 require("../../tool/theme/colortool.js");
 require("../../tool/lib/interface.js");
@@ -85,94 +86,47 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   },
   emits: ["click", "longpress", "touchend", "touchstart", "touchcancel", "mousedown", "mouseup", "mouseleave"],
   setup(__props, { emit: emits }) {
-    var _a;
     const props = __props;
     const store = tmui_tool_lib_tmpinia.useTmpiniaStore();
-    ((_a = common_vendor.getCurrentInstance()) == null ? void 0 : _a.proxy) ?? null;
-    const parenClass_p = common_vendor.computed(() => props.parenClass);
-    const contStyle_p = common_vendor.computed(() => props.contStyle);
-    const _transprent = common_vendor.computed(() => props.transprent);
     const tmcfg = common_vendor.computed(() => store.tmStore);
-    const _blur = common_vendor.computed(() => {
-      if (tmcfg.value.os == "android" && _isNvue.value) {
-        return false;
-      }
-      return props.blur;
-    });
-    const customCSSStyle = common_vendor.computed(() => tmui_tool_lib_minxs.computedStyle(props));
-    const customClass = common_vendor.computed(() => tmui_tool_lib_minxs.computedClass(props));
-    const isDark = common_vendor.computed(() => tmui_tool_lib_minxs.computedDark(props, tmcfg.value));
-    const tmcomputed = common_vendor.computed(() => {
-      let text = props.text;
-      if (_blur.value && tmcfg.value.os == "ios" && _isNvue.value) {
-        text = true;
-      }
-      let _props_rs = common_vendor.index.$tm.u.deepClone(props);
-      const customPropsDefault = common_vendor.index.$tm.u.deepObjectMerge(_props_rs, {
-        blur: _blur.value,
-        text
-      });
-      return tmui_tool_lib_minxs.computedTheme(customPropsDefault, isDark.value, tmcfg.value);
-    });
-    const _isNvue = common_vendor.ref(false);
-    const _margin = common_vendor.computed(() => {
-      if (props.margin.length == 1)
-        return [props.margin[0], props.margin[0], props.margin[0], props.margin[0]];
-      if (props.margin.length == 2)
-        return [props.margin[0], props.margin[1], props.margin[0], props.margin[1]];
-      if (props.margin.length == 3)
-        return [props.margin[0], props.margin[1], props.margin[2], 0];
-      if (props.margin.length == 4)
-        return [props.margin[0], props.margin[1], props.margin[2], props.margin[3]];
-      return [0, 0, 0, 0];
-    });
-    const _padding = common_vendor.computed(() => {
-      if (props.padding.length == 1)
-        return [props.padding[0], props.padding[0], props.padding[0], props.padding[0]];
-      if (props.padding.length == 2)
-        return [props.padding[0], props.padding[1], props.padding[0], props.padding[1]];
-      if (props.padding.length == 3)
-        return [props.padding[0], props.padding[1], props.padding[2], 0];
-      if (props.padding.length == 4)
-        return [props.padding[0], props.padding[1], props.padding[2], props.padding[3]];
-      return [0, 0, 0, 0];
-    });
-    const _round = common_vendor.computed(() => {
-      if (typeof props.round == "number")
-        return "round-" + props.round;
-      if (props.round.length == 1)
-        return "round-" + props.round;
-      if (props.round.length == 2)
-        return `round-tl-${props.round[0]} round-tr-${props.round[1]}`;
-      if (props.round.length == 3)
-        return `round-tl-${props.round[0]} round-tr-${props.round[1]} round-br-${props.round[2]} `;
-      if (props.round.length == 4)
-        return `round-tl-${props.round[0]} round-tr-${props.round[1]} round-br-${props.round[2]}  round-bl-${props.round[2]}`;
-      return [0, 0, 0, 0];
-    });
-    const _width = common_vendor.computed(() => props.width + _padding.value[0] + _padding.value[2]);
-    const _height = common_vendor.computed(() => props.height + _padding.value[1] + _padding.value[3]);
+    const {
+      dark,
+      isNvue,
+      customCSSStyle,
+      customClass,
+      parentClass,
+      transparent,
+      _props,
+      proxy,
+      blur,
+      round,
+      margin,
+      padding,
+      theme
+    } = tmui_tool_useFun_useTheme.useTheme(common_vendor.computed(() => props), tmcfg);
+    const tmcomputed = theme({ text: blur.value && tmcfg.value.os == "ios" && isNvue.value ? true : null });
+    const _width = common_vendor.computed(() => props.width + padding.value[0] + padding.value[2]);
+    const _height = common_vendor.computed(() => props.height + padding.value[1] + padding.value[3]);
     const _width_real = common_vendor.computed(() => props.width);
     const _height_real = common_vendor.computed(() => props.height);
-    const _noLevel = common_vendor.computed(() => props.noLevel);
     const _blue_sheet = common_vendor.ref(true);
-    const _blurEffect = common_vendor.computed(() => {
-      if (props.blur === true && isDark.value)
+    const blurEffect = common_vendor.computed(() => {
+      if (props.blur === true && dark.value)
         return "dark";
-      if (props.blur === true && !isDark.value)
+      if (props.blur === true && !dark.value)
         return "extralight";
       return "none";
     });
     common_vendor.watch(
-      () => isDark.value,
+      () => dark.value,
       () => {
       }
     );
     const _bgcolor = common_vendor.computed(() => {
-      var _a2;
-      if (_transprent.value === true)
+      var _a;
+      if (transparent.value === true)
         return `background-color:rgba(255,255,255,0);`;
-      if (props.darkBgColor !== "" && isDark.value === true) {
+      if (props.darkBgColor !== "" && dark.value === true) {
         return `background-color:${props.darkBgColor};`;
       }
       if (props.linearColor.length == 2) {
@@ -180,10 +134,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           "background-image": `linear-gradient(${tmcomputed.value.linearDirectionStr},${props.linearColor[0]},${props.linearColor[1]})`
         };
       }
-      if (((_a2 = tmcomputed.value.gradientColor) == null ? void 0 : _a2.length) == 2) {
+      if (((_a = tmcomputed.value.gradientColor) == null ? void 0 : _a.length) == 2) {
         return tmcomputed.value.backgroundColorCss;
       }
-      if (_noLevel.value && tmcomputed.value.isBlackAndWhite === true && isDark.value === true) {
+      if (_props.value.noLevel && tmcomputed.value.isBlackAndWhite === true && dark.value === true) {
         return `background-color: ${tmcomputed.value.inputcolor}`;
       }
       return `background-color: ${tmcomputed.value.backgroundColor}`;
@@ -228,16 +182,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         });
       }
     }
-    common_vendor.computed(() => {
-      let w = parseFloat(String(_width.value)) - parseFloat(String(props.padding[0]));
-      w = w - parseFloat(String(props.border)) * 2;
-      return w;
-    });
-    common_vendor.computed(() => {
-      let h = parseFloat(String(_height.value)) - parseFloat(String(props.padding[1]));
-      h = h - parseFloat(String(props.border)) * 2;
-      return h;
-    });
     let textColor = common_vendor.computed(() => {
       return tmcomputed.value.textColor;
     });
@@ -247,9 +191,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         a: _blue_sheet.value
       }, _blue_sheet.value ? {
         b: common_vendor.n(common_vendor.unref(customClass)),
-        c: common_vendor.s(common_vendor.unref(contStyle_p)),
-        d: (props.url ? " opacity-7 " : "  ") + props.hoverClass,
-        e: common_vendor.unref(_blurEffect),
+        c: common_vendor.s(common_vendor.unref(_props).contStyle),
+        d: (common_vendor.unref(_props).url ? " opacity-7 " : "  ") + common_vendor.unref(_props).hoverClass,
+        e: common_vendor.unref(blurEffect),
         f: common_vendor.o(onClick),
         g: common_vendor.o(longpress),
         h: common_vendor.o(touchend),
@@ -258,28 +202,28 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         k: common_vendor.o(mousedown),
         l: common_vendor.o(mouseup),
         m: common_vendor.o(mouseleave),
-        n: common_vendor.n(common_vendor.unref(parenClass_p)),
-        o: common_vendor.n(!_ctx.isDisabledRoundAndriod ? common_vendor.unref(_round) : ""),
+        n: common_vendor.n(common_vendor.unref(parentClass)),
+        o: common_vendor.n(!_ctx.isDisabledRoundAndriod ? common_vendor.unref(round) : ""),
         p: common_vendor.s({
-          marginLeft: common_vendor.unref(_margin)[0] + "rpx",
-          marginTop: common_vendor.unref(_margin)[1] + "rpx",
-          marginRight: common_vendor.unref(_margin)[2] + "rpx",
-          marginBottom: common_vendor.unref(_margin)[3] + "rpx",
-          paddingLeft: common_vendor.unref(_padding)[0] + "rpx",
-          paddingTop: common_vendor.unref(_padding)[1] + "rpx",
-          paddingRight: common_vendor.unref(_padding)[2] + "rpx",
-          paddingBottom: common_vendor.unref(_padding)[3] + "rpx"
+          marginLeft: common_vendor.unref(margin)[0] + "rpx",
+          marginTop: common_vendor.unref(margin)[1] + "rpx",
+          marginRight: common_vendor.unref(margin)[2] + "rpx",
+          marginBottom: common_vendor.unref(margin)[3] + "rpx",
+          paddingLeft: common_vendor.unref(padding)[0] + "rpx",
+          paddingTop: common_vendor.unref(padding)[1] + "rpx",
+          paddingRight: common_vendor.unref(padding)[2] + "rpx",
+          paddingBottom: common_vendor.unref(padding)[3] + "rpx"
         }),
         q: common_vendor.s(common_vendor.unref(_height_real) ? {
-          height: common_vendor.unref(_height) + props.unit
+          height: common_vendor.unref(_height) + common_vendor.unref(_props).unit
         } : ""),
         r: common_vendor.s(common_vendor.unref(_width_real) ? {
-          width: common_vendor.unref(_width) + props.unit
+          width: common_vendor.unref(_width) + common_vendor.unref(_props).unit
         } : ""),
         s: common_vendor.s(common_vendor.unref(tmcomputed).borderCss),
-        t: common_vendor.s(common_vendor.unref(_blur) && common_vendor.unref(store).tmStore.os == "ios" && _isNvue.value === true ? "" : common_vendor.unref(_bgcolor)),
-        v: common_vendor.s(!common_vendor.unref(_transprent) && props.shadow > 0 ? common_vendor.unref(tmcomputed).shadowColor : ""),
-        w: common_vendor.s(!common_vendor.unref(_transprent) && common_vendor.unref(_blur) ? {
+        t: common_vendor.s(common_vendor.unref(blur) && common_vendor.unref(store).tmStore.os == "ios" && common_vendor.unref(isNvue) === true ? "" : common_vendor.unref(_bgcolor)),
+        v: common_vendor.s(!common_vendor.unref(transparent) && common_vendor.unref(_props).shadow > 0 ? common_vendor.unref(tmcomputed).shadowColor : ""),
+        w: common_vendor.s(!common_vendor.unref(transparent) && common_vendor.unref(blur) ? {
           backdropFilter: "blur(6px)"
         } : ""),
         x: common_vendor.s(common_vendor.unref(customCSSStyle))

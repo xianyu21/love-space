@@ -7,8 +7,8 @@ require("./tmui/tool/function/util.js");
 require("./tmui/tool/function/preview.js");
 require("./tmui/tool/lib/language.js");
 require("./tmui/tool/lib/share.js");
-require("./tmui/tool/lib/tmuiconfigDefault.js");
 require("./tmui/tool/router/index.js");
+require("./tmui/tool/lib/tmuiconfigDefault.js");
 if (!Math) {
   "./pages/index/login.js";
   "./pages/index/index.js";
@@ -20,8 +20,7 @@ function _sfc_render(_ctx, _cache) {
 const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
-  const store = common_vendor.createPinia();
-  store.use(common_vendor.createUnistorage());
+  common_vendor.createPinia();
   app.use(tmui_index.tmui, { shareDisable: false });
   return {
     app,

@@ -393,7 +393,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           name: common_vendor.unref(_icon)
         })
       } : {}, {
-        c: common_vendor.t(common_vendor.unref(_label)),
+        c: common_vendor.t$1(common_vendor.unref(_label)),
         d: common_vendor.o(onclick),
         e: common_vendor.o(touchstart),
         f: common_vendor.o(touchend),

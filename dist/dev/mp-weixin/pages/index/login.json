@@ -2,5 +2,13 @@
   "navigationBarTitleText": "",
   "titlePenetrate": "YES",
   "transparentTitle": "always",
-  "usingComponents": {}
+  "usingComponents": {
+    "tm-app": "../../tmui/components/tm-app/tm-app",
+    "tm-button": "../../tmui/components/tm-button/tm-button",
+    "tm-input": "../../tmui/components/tm-input/tm-input",
+    "tm-radio-group": "../../tmui/components/tm-radio-group/tm-radio-group",
+    "tm-radio": "../../tmui/components/tm-radio/tm-radio",
+    "tm-form-item": "../../tmui/components/tm-form-item/tm-form-item",
+    "tm-form": "../../tmui/components/tm-form/tm-form"
+  }
 }

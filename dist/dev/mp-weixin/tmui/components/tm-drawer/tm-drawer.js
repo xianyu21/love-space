@@ -2,6 +2,7 @@
 const common_vendor = require("../../../common/vendor.js");
 const tmui_tool_lib_minxs = require("../../tool/lib/minxs.js");
 const tmui_tool_lib_tmpinia = require("../../tool/lib/tmpinia.js");
+const tmui_tool_useFun_useWindowInfo = require("../../tool/useFun/useWindowInfo.js");
 require("../../tool/theme/theme.js");
 require("../../tool/theme/colortool.js");
 require("../../tool/lib/interface.js");
@@ -149,26 +150,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const overlayAni = common_vendor.ref(null);
     const store = tmui_tool_lib_tmpinia.useTmpiniaStore();
     ((_a = common_vendor.getCurrentInstance()) == null ? void 0 : _a.proxy) ?? null;
-    const sysinfo = common_vendor.inject(
-      "tmuiSysInfo",
-      common_vendor.computed(() => {
-        return {
-          bottom: 0,
-          height: 750,
-          width: common_vendor.index.upx2px(750),
-          top: 0,
-          isCustomHeader: false,
-          sysinfo: null
-        };
-      })
-    );
+    const sysinfo = tmui_tool_useFun_useWindowInfo.useWindowInfo();
     const tmcfg = common_vendor.computed(() => store.tmStore);
     const customCSSStyle = common_vendor.computed(() => tmui_tool_lib_minxs.computedStyle(props));
     const customClass = common_vendor.computed(() => tmui_tool_lib_minxs.computedClass(props));
     const isDark = common_vendor.computed(() => tmui_tool_lib_minxs.computedDark(props, tmcfg.value));
     const tmcomputed = common_vendor.computed(() => tmui_tool_lib_minxs.computedTheme(props, isDark.value, tmcfg.value));
-    const syswidth = common_vendor.computed(() => sysinfo.value.width);
-    const sysheight = common_vendor.computed(() => sysinfo.value.height);
     const reverse = common_vendor.ref(true);
     const timeid = common_vendor.ref(0);
     let timerId = NaN;
@@ -273,14 +260,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       if (props.placement == "left" || props.placement == "right") {
         return props.width + props.unit;
       }
-      return syswidth.value + "px";
+      return sysinfo.width + "px";
     });
     const anheight = common_vendor.computed(() => {
       let wucha = 0;
       if (props.placement == "top" || props.placement == "bottom" || aniname.value == "zoom") {
         return props.height + wucha + props.unit;
       }
-      return sysheight.value + "px";
+      return sysinfo.height + "px";
     });
     const contentHeight = common_vendor.computed(() => {
       let base_height = props.hideHeader ? 0 : 44;
@@ -292,7 +279,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }
         return h - base_height - _footerHeight + "px";
       }
-      return sysheight.value - base_height - _footerHeight + "px";
+      return sysinfo.height - base_height - _footerHeight + "px";
     });
     const align_rp = common_vendor.computed(() => {
       if (aniname.value == "down") {

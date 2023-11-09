@@ -5,9 +5,9 @@
     "include": []
   },
   "setting": {
-    "urlCheck": false,
+    "urlCheck": true,
     "es6": true,
-    "postcss": false,
+    "postcss": true,
     "minified": true,
     "newFeature": true,
     "bigPackageSizeSupport": true,
@@ -19,7 +19,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.1.3",
-  "appid": "touristappid",
+  "appid": "wx4d3ab92b0baf2a28",
   "projectname": "tmui3.0",
   "condition": {},
   "editorSetting": {
