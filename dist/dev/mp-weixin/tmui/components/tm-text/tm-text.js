@@ -80,7 +80,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.t$1(common_vendor.unref(_label)),
+        a: common_vendor.t(common_vendor.unref(_label)),
         b: common_vendor.o(($event) => emits("click", $event)),
         c: __props.selectable,
         d: __props.selectable,
@@ -104,5 +104,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-3acfd808"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-text/tm-text.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-3acfd808"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-text/tm-text.vue"]]);
 wx.createComponent(Component);

@@ -9,14 +9,14 @@ const tmui_tool_router_index = require("./tool/router/index.js");
 const tmui_tool_lib_tmuiconfigDefault = require("./tool/lib/tmuiconfigDefault.js");
 const tmui_tool_function_preview = require("./tool/function/preview.js");
 let pages = [];
-if (typeof ((_a = common_vendor.t) == null ? void 0 : _a.pages) == "undefined") {
-  common_vendor.t.pages = [];
+if (typeof ((_a = common_vendor.e) == null ? void 0 : _a.pages) == "undefined") {
+  common_vendor.e.pages = [];
 }
-common_vendor.t.pages.forEach((el) => {
+common_vendor.e.pages.forEach((el) => {
   var _a2, _b2, _c2, _d2, _e2, _f2, _g;
   let customType = ((_a2 = el == null ? void 0 : el.style) == null ? void 0 : _a2.navigationStyle) ?? "default";
-  let bg = (((_b2 = el.style) == null ? void 0 : _b2.navigationBarBackgroundColor) ?? ((_d2 = (_c2 = common_vendor.t) == null ? void 0 : _c2.globalStyle) == null ? void 0 : _d2.navigationBarBackgroundColor) ?? "#FFFFFF") || "#FFFFFF";
-  let txtColor = (((_e2 = el.style) == null ? void 0 : _e2.navigationBarTextStyle) ?? ((_g = (_f2 = common_vendor.t) == null ? void 0 : _f2.globalStyle) == null ? void 0 : _g.navigationBarTextStyle) ?? "black") || "black";
+  let bg = (((_b2 = el.style) == null ? void 0 : _b2.navigationBarBackgroundColor) ?? ((_d2 = (_c2 = common_vendor.e) == null ? void 0 : _c2.globalStyle) == null ? void 0 : _d2.navigationBarBackgroundColor) ?? "#FFFFFF") || "#FFFFFF";
+  let txtColor = (((_e2 = el.style) == null ? void 0 : _e2.navigationBarTextStyle) ?? ((_g = (_f2 = common_vendor.e) == null ? void 0 : _f2.globalStyle) == null ? void 0 : _g.navigationBarTextStyle) ?? "black") || "black";
   pages.push({
     path: el.path,
     custom: customType,
@@ -24,14 +24,14 @@ common_vendor.t.pages.forEach((el) => {
     navigationBarTextStyle: txtColor
   });
 });
-if (Array.isArray(((_b = common_vendor.t) == null ? void 0 : _b.subPackages) ?? null)) {
-  (_c = common_vendor.t) == null ? void 0 : _c.subPackages.forEach((el) => {
+if (Array.isArray(((_b = common_vendor.e) == null ? void 0 : _b.subPackages) ?? null)) {
+  (_c = common_vendor.e) == null ? void 0 : _c.subPackages.forEach((el) => {
     let rootPath = el.root;
     el.pages.forEach((el2) => {
       var _a2, _b2, _c2, _d2, _e2, _f2, _g;
       let elany = el2;
-      let bg = (((_a2 = el2.style) == null ? void 0 : _a2.navigationBarBackgroundColor) ?? ((_c2 = (_b2 = common_vendor.t) == null ? void 0 : _b2.globalStyle) == null ? void 0 : _c2.navigationBarBackgroundColor) ?? "#FFFFFF") || "#FFFFFF";
-      let txtColor = (((_d2 = el2.style) == null ? void 0 : _d2.navigationBarTextStyle) ?? ((_f2 = (_e2 = common_vendor.t) == null ? void 0 : _e2.globalStyle) == null ? void 0 : _f2.navigationBarTextStyle) ?? "black") || "black";
+      let bg = (((_a2 = el2.style) == null ? void 0 : _a2.navigationBarBackgroundColor) ?? ((_c2 = (_b2 = common_vendor.e) == null ? void 0 : _b2.globalStyle) == null ? void 0 : _c2.navigationBarBackgroundColor) ?? "#FFFFFF") || "#FFFFFF";
+      let txtColor = (((_d2 = el2.style) == null ? void 0 : _d2.navigationBarTextStyle) ?? ((_f2 = (_e2 = common_vendor.e) == null ? void 0 : _e2.globalStyle) == null ? void 0 : _f2.navigationBarTextStyle) ?? "black") || "black";
       pages.push({
         path: rootPath + "/" + elany.path,
         custom: ((_g = elany == null ? void 0 : elany.style) == null ? void 0 : _g.navigationStyle) ?? "default",
@@ -41,7 +41,7 @@ if (Array.isArray(((_b = common_vendor.t) == null ? void 0 : _b.subPackages) ?? 
     });
   });
 }
-let pagers = common_vendor.t;
+let pagers = common_vendor.e;
 let tabBar = (pagers == null ? void 0 : pagers.tabBar) ?? {
   color: "",
   selectedColor: "",
@@ -53,8 +53,8 @@ let cusutomIconList = [];
 let $tm = {
   tabBar,
   pages,
-  globalNavStyle: ((_d = common_vendor.t) == null ? void 0 : _d.globalStyle.navigationStyle) ?? "",
-  isOpenDarkModel: (((_f = (_e = common_vendor.t) == null ? void 0 : _e.globalStyle) == null ? void 0 : _f.navigationBarBackgroundColor) ?? "").indexOf("@") > -1,
+  globalNavStyle: ((_d = common_vendor.e) == null ? void 0 : _d.globalStyle.navigationStyle) ?? "",
+  isOpenDarkModel: (((_f = (_e = common_vendor.e) == null ? void 0 : _e.globalStyle) == null ? void 0 : _f.navigationBarBackgroundColor) ?? "").indexOf("@") > -1,
   isColor: (color) => {
     const reg1 = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
     const reg2 = /^(rgb|RGB|rgba|RGBA)/;

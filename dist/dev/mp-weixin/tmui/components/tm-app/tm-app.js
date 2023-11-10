@@ -283,5 +283,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-690d8382"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-app/tm-app.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-690d8382"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-app/tm-app.vue"]]);
 wx.createComponent(Component);

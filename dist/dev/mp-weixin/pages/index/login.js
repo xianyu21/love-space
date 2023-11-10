@@ -1,13 +1,14 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 if (!Math) {
-  (tmButton + tmInput + tmFormItem + tmRadio + tmRadioGroup + tmForm + tmApp)();
+  (tmButton + tmInput + tmFormItem + tmRadio + tmRadioGroup + tmUpload + tmForm + tmApp)();
 }
 const tmApp = () => "../../tmui/components/tm-app/tm-app.js";
 const tmButton = () => "../../tmui/components/tm-button/tm-button.js";
 const tmInput = () => "../../tmui/components/tm-input/tm-input.js";
 const tmRadioGroup = () => "../../tmui/components/tm-radio-group/tm-radio-group.js";
 const tmRadio = () => "../../tmui/components/tm-radio/tm-radio.js";
+const tmUpload = () => "../../tmui/components/tm-upload/tm-upload.js";
 const tmFormItem = () => "../../tmui/components/tm-form-item/tm-form-item.js";
 const tmForm = () => "../../tmui/components/tm-form/tm-form.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
@@ -33,7 +34,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         success: async (res) => {
           console.log(res);
           if (res.code) {
-            let result = await common_vendor.Ds.callFunction({
+            let result = await common_vendor.$s.callFunction({
               name: "user",
               data: {
                 action: "code2Session",
@@ -63,6 +64,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const getAvatar = (res) => {
       console.log(res);
     };
+    const loginInfo = () => {
+      console.log(show.value);
+    };
     function loginSuccess(data) {
       updateTokenStorage(data);
       updateIsLoginStorage(true);
@@ -83,7 +87,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       common_vendor.index.setStorageSync("isLogin", data);
     }
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: common_vendor.o(login),
         b: common_vendor.p({
           label: "登录"
@@ -133,22 +137,45 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           field: "radio"
         }),
         o: common_vendor.p({
-          type: "textarea"
+          type: "textarea",
+          autoHeight: true,
+          showCharNumber: true,
+          maxlength: 100
         }),
         p: common_vendor.p({
           required: true,
           label: "个性签名",
           field: "nameuser.a"
         }),
-        q: common_vendor.sr("form", "4169b666-2,4169b666-0"),
-        r: common_vendor.o(($event) => show.value = $event),
+        q: common_vendor.o(($event) => show.value.upload = $event),
+        r: common_vendor.p({
+          rows: 3,
+          width: 420,
+          modelValue: show.value.upload
+        }),
         s: common_vendor.p({
+          required: true,
+          label: "上传截图",
+          field: "upload",
+          rules: {
+            required: true,
+            message: "请上传"
+          }
+        }),
+        t: common_vendor.sr("form", "1866c1da-2,1866c1da-0"),
+        v: common_vendor.o(($event) => show.value = $event),
+        w: common_vendor.p({
           ["label-width"]: 190,
           modelValue: show.value
         })
-      } : {});
+      } : {}, {
+        x: common_vendor.o(loginInfo),
+        y: common_vendor.p({
+          label: "登录"
+        })
+      });
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/pages/index/login.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/admin/Desktop/github/love-space/src/pages/index/login.vue"]]);
 wx.createPage(MiniProgramPage);

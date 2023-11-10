@@ -174,7 +174,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     return (_ctx, _cache) => {
       var _a2, _b;
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: showMask.value
       }, showMask.value ? {
         b: common_vendor.n(common_vendor.unref(bgColor_rp) && !props.transprent && ani.value ? "blurOnOpacity" : "blurOffOpacity"),
@@ -226,5 +226,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-009fda2d"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-overlay/tm-overlay.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-009fda2d"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-overlay/tm-overlay.vue"]]);
 wx.createComponent(Component);

@@ -187,7 +187,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     common_vendor.provide("appTextColor", textColor);
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: _blue_sheet.value
       }, _blue_sheet.value ? {
         b: common_vendor.n(common_vendor.unref(customClass)),
@@ -231,5 +231,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-c6f3e58c"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-sheet/tm-sheet.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-c6f3e58c"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-sheet/tm-sheet.vue"]]);
 wx.createComponent(Component);

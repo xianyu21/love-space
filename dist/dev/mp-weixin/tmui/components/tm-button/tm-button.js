@@ -380,7 +380,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     common_vendor.provide("appTextColor", textColor);
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: common_vendor.unref(_icon) && !common_vendor.unref(_load)
       }, common_vendor.unref(_icon) && !common_vendor.unref(_load) ? {
         b: common_vendor.p({
@@ -393,7 +393,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           name: common_vendor.unref(_icon)
         })
       } : {}, {
-        c: common_vendor.t$1(common_vendor.unref(_label)),
+        c: common_vendor.t(common_vendor.unref(_label)),
         d: common_vendor.o(onclick),
         e: common_vendor.o(touchstart),
         f: common_vendor.o(touchend),
@@ -451,5 +451,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-f3634985"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-button/tm-button.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-f3634985"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-button/tm-button.vue"]]);
 wx.createComponent(Component);

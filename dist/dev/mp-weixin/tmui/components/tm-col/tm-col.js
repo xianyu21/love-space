@@ -106,7 +106,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     let textColor = common_vendor.computed(() => tmcomputed.value.textColor);
     common_vendor.provide("appTextColor", textColor);
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: common_vendor.unref(colWidth)
       }, common_vendor.unref(colWidth) ? {
         b: common_vendor.s({
@@ -140,5 +140,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-col/tm-col.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-col/tm-col.vue"]]);
 wx.createComponent(Component);

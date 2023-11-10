@@ -211,15 +211,15 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       { deep: true, immediate: true }
     );
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: props.showError && props.showTopErrorGap
       }, props.showError && props.showTopErrorGap ? {
         b: `${props.errHeight}rpx`
       } : {}, {
         c: common_vendor.unref(_label)
-      }, common_vendor.unref(_label) ? common_vendor.e({
+      }, common_vendor.unref(_label) ? common_vendor.e$1({
         d: common_vendor.unref(tmFormLabelAlign) != "right"
-      }, common_vendor.unref(tmFormLabelAlign) != "right" ? common_vendor.e({
+      }, common_vendor.unref(tmFormLabelAlign) != "right" ? common_vendor.e$1({
         e: _required.value
       }, _required.value ? {
         f: common_vendor.p({
@@ -240,7 +240,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           width: "0px"
         } : ""),
         l: common_vendor.unref(tmFormLabelAlign) == "right"
-      }, common_vendor.unref(tmFormLabelAlign) == "right" ? common_vendor.e({
+      }, common_vendor.unref(tmFormLabelAlign) == "right" ? common_vendor.e$1({
         m: _required.value
       }, _required.value ? {
         n: common_vendor.p({
@@ -270,7 +270,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         z: common_vendor.n(props.desc ? "pt-12" : ""),
         A: props.showError
-      }, props.showError ? common_vendor.e({
+      }, props.showError ? common_vendor.e$1({
         B: common_vendor.unref(tmFormFun) == "validate" && item.value.isRequiredError == true
       }, common_vendor.unref(tmFormFun) == "validate" && item.value.isRequiredError == true ? {
         C: common_vendor.p({
@@ -306,5 +306,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-form-item/tm-form-item.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-form-item/tm-form-item.vue"]]);
 wx.createComponent(Component);

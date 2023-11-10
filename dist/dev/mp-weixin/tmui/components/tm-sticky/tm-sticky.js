@@ -41,5 +41,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-0062a1d2"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-sticky/tm-sticky.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-0062a1d2"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-sticky/tm-sticky.vue"]]);
 wx.createComponent(Component);

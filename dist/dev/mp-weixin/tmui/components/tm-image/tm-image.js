@@ -204,9 +204,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       error.value = false;
     }
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: !isRmove.value
-      }, !isRmove.value ? common_vendor.e({
+      }, !isRmove.value ? common_vendor.e$1({
         b: !error.value
       }, !error.value ? {
         c: common_vendor.o(imageLoad),
@@ -223,7 +223,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         k: props.model
       } : {}, {
         l: loading.value && !error.value
-      }, loading.value && !error.value ? common_vendor.e({
+      }, loading.value && !error.value ? common_vendor.e$1({
         m: props.showLoad
       }, props.showLoad ? {
         n: common_vendor.p({
@@ -298,7 +298,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           unit: props.unit,
           height: common_vendor.unref(img_height) - props.padding[0] * 2
         }),
-        J: common_vendor.sr(aniplay, "008c5184-0", {
+        J: common_vendor.sr(aniplay, "2d2396de-0", {
           "k": "aniplay"
         }),
         K: common_vendor.o(aniEnd),
@@ -315,5 +315,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-image/tm-image.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-image/tm-image.vue"]]);
 wx.createComponent(Component);

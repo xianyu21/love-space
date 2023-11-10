@@ -202,11 +202,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     expose({ hanlerClick });
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: props.custom
-      }, props.custom ? common_vendor.e({
+      }, props.custom ? common_vendor.e$1({
         b: !props.closeAni
-      }, !props.closeAni ? common_vendor.e({
+      }, !props.closeAni ? common_vendor.e$1({
         c: _checked.value && !props.indeterminate
       }, _checked.value && !props.indeterminate ? {
         d: common_vendor.p({
@@ -230,7 +230,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         })
       } : {}) : {}, {
         i: props.closeAni
-      }, props.closeAni ? common_vendor.e({
+      }, props.closeAni ? common_vendor.e$1({
         j: _checked.value && !props.indeterminate
       }, _checked.value && !props.indeterminate ? {
         k: common_vendor.p({
@@ -290,5 +290,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-checkbox/tm-checkbox.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-checkbox/tm-checkbox.vue"]]);
 wx.createComponent(Component);

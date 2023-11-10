@@ -177,9 +177,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       hide
     });
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: showValue.value
-      }, showValue.value ? common_vendor.e({
+      }, showValue.value ? common_vendor.e$1({
         b: showValue.value
       }, showValue.value ? {
         c: common_vendor.p({
@@ -218,5 +218,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-4c4cf99a"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-message/tm-message.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-4c4cf99a"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-message/tm-message.vue"]]);
 wx.createComponent(Component);

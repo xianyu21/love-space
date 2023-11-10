@@ -188,22 +188,22 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             a: `${sys.width}px`,
             b: `${sys.height}px`,
             c: `https://picsum.photos/${sys.width}/${sys.height}?id=${Math.random()}`,
-            d: "15a381b6-2-" + i0 + "," + ("15a381b6-1-" + i0),
-            e: "15a381b6-3-" + i0 + "," + ("15a381b6-1-" + i0),
-            f: "15a381b6-4-" + i0 + "," + ("15a381b6-1-" + i0),
-            g: "15a381b6-5-" + i0 + "," + ("15a381b6-1-" + i0),
-            h: "15a381b6-6-" + i0 + "," + ("15a381b6-1-" + i0),
-            i: "15a381b6-7-" + i0 + "," + ("15a381b6-1-" + i0),
+            d: "4ebf1ec3-2-" + i0 + "," + ("4ebf1ec3-1-" + i0),
+            e: "4ebf1ec3-3-" + i0 + "," + ("4ebf1ec3-1-" + i0),
+            f: "4ebf1ec3-4-" + i0 + "," + ("4ebf1ec3-1-" + i0),
+            g: "4ebf1ec3-5-" + i0 + "," + ("4ebf1ec3-1-" + i0),
+            h: "4ebf1ec3-6-" + i0 + "," + ("4ebf1ec3-1-" + i0),
+            i: "4ebf1ec3-7-" + i0 + "," + ("4ebf1ec3-1-" + i0),
             j: `${sys.width}px`,
             k: `${sys.height}px`,
-            l: "15a381b6-1-" + i0 + ",15a381b6-0",
+            l: "4ebf1ec3-1-" + i0 + ",4ebf1ec3-0",
             m: i0,
             n: s0
           };
         }, {
           name: "menu",
           path: "a",
-          vueId: "15a381b6-0"
+          vueId: "4ebf1ec3-0"
         }),
         b: common_vendor.unref(sysinfo).sysinfo.statusBarHeight + "px",
         c: common_vendor.p({
@@ -334,20 +334,20 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         E: common_vendor.f(category, (item, index, i0) => {
           return {
-            a: "15a381b6-23-" + i0 + "," + ("15a381b6-22-" + i0),
+            a: "4ebf1ec3-23-" + i0 + "," + ("4ebf1ec3-22-" + i0),
             b: common_vendor.p({
               color: item.color,
               _class: "pb-10",
               ["font-size"]: 52,
               name: item.icon
             }),
-            c: "15a381b6-24-" + i0 + "," + ("15a381b6-22-" + i0),
+            c: "4ebf1ec3-24-" + i0 + "," + ("4ebf1ec3-22-" + i0),
             d: common_vendor.p({
               ["font-size"]: 28,
               _class: "font-weight-b",
               label: common_vendor.unref(tmui_tool_lib_language.language)(item.title)
             }),
-            e: "15a381b6-25-" + i0 + "," + ("15a381b6-22-" + i0),
+            e: "4ebf1ec3-25-" + i0 + "," + ("4ebf1ec3-22-" + i0),
             f: common_vendor.p({
               color: "grey",
               ["font-size"]: 22,
@@ -356,7 +356,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             }),
             g: common_vendor.o(($event) => toLinks(item.url), index),
             h: index,
-            i: "15a381b6-22-" + i0 + ",15a381b6-21"
+            i: "4ebf1ec3-22-" + i0 + ",4ebf1ec3-21"
           };
         }),
         F: common_vendor.p({
@@ -433,7 +433,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             linear: "right"
           }
         }),
-        V: common_vendor.sr(msg, "15a381b6-35,15a381b6-0", {
+        V: common_vendor.sr(msg, "4ebf1ec3-35,4ebf1ec3-0", {
           "k": "msg"
         }),
         W: common_vendor.p({
@@ -474,7 +474,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           width: 600,
           show: showCustom.value
         }),
-        af: common_vendor.sr(app, "15a381b6-0", {
+        af: common_vendor.sr(app, "4ebf1ec3-0", {
           "k": "app"
         }),
         ag: common_vendor.o(($event) => showf.value = $event),
@@ -485,5 +485,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/pages/index/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/admin/Desktop/github/love-space/src/pages/index/index.vue"]]);
 wx.createPage(MiniProgramPage);

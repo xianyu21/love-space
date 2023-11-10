@@ -134,7 +134,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onMounted(() => {
     });
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: !common_vendor.unref(isImg)
       }, !common_vendor.unref(isImg) ? {
         b: common_vendor.o(clickhandle),
@@ -178,5 +178,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-e3e455a0"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-icon/tm-icon.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-e3e455a0"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-icon/tm-icon.vue"]]);
 wx.createComponent(Component);

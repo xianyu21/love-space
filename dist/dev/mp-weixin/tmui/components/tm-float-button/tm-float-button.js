@@ -472,7 +472,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     return (_ctx, _cache) => {
       var _a2, _b;
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: common_vendor.p({
           userInteractionEnabled: false,
           ["follow-dark"]: false,
@@ -516,7 +516,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         n: showActions.value && common_vendor.unref(_actionsItem).length > 0
       }, showActions.value && common_vendor.unref(_actionsItem).length > 0 ? {
         o: common_vendor.f(common_vendor.unref(_actionsItem), (item, index, i0) => {
-          return common_vendor.e({
+          return common_vendor.e$1({
             a: "77075966-4-" + i0 + "," + ("77075966-3-" + i0),
             b: common_vendor.p({
               userInteractionEnabled: false,
@@ -575,5 +575,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-77075966"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-float-button/tm-float-button.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-77075966"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-float-button/tm-float-button.vue"]]);
 wx.createComponent(Component);

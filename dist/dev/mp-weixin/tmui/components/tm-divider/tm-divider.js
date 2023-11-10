@@ -93,7 +93,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       emits("click", e);
     }
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: !common_vendor.unref(_label) && props.vertical
       }, !common_vendor.unref(_label) && props.vertical ? {
         b: common_vendor.s({
@@ -106,7 +106,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         d: common_vendor.n(props.vertical ? `mx-${props.margin[0]}` : `my-${props.margin[1]}`)
       } : {}, {
         e: common_vendor.unref(_label) && !props.vertical
-      }, common_vendor.unref(_label) && !props.vertical ? common_vendor.e({
+      }, common_vendor.unref(_label) && !props.vertical ? common_vendor.e$1({
         f: common_vendor.s(common_vendor.unref(tmcomputed) ? {
           backgroundColor: common_vendor.unref(_realColor) ? common_vendor.unref(tmcomputed).color : common_vendor.unref(tmcomputed).border,
           height: props.border + "rpx"
@@ -149,5 +149,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-divider/tm-divider.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-divider/tm-divider.vue"]]);
 wx.createComponent(Component);

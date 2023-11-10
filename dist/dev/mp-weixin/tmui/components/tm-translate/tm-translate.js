@@ -141,7 +141,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }, 20);
     }
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: isLoadEl.value
       }, isLoadEl.value ? {
         b: `${durationtos.value}ms`,
@@ -161,5 +161,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1c8a1639"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-translate/tm-translate.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1c8a1639"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-translate/tm-translate.vue"]]);
 wx.createComponent(Component);

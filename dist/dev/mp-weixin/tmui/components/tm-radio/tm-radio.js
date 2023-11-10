@@ -184,9 +184,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       parent.pushKey(props.value);
     }
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: props.custom
-      }, props.custom ? common_vendor.e({
+      }, props.custom ? common_vendor.e$1({
         b: _checked.value && common_vendor.unref(_is_radio)
       }, _checked.value && common_vendor.unref(_is_radio) ? {
         c: common_vendor.p({
@@ -251,5 +251,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-radio/tm-radio.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-radio/tm-radio.vue"]]);
 wx.createComponent(Component);

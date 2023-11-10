@@ -15,3 +15,4 @@ unpackage/dist/dev/
 # python
 *.pyc
 /uniCloud-aliyun
+/dist

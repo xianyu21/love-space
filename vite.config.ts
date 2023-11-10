@@ -20,23 +20,23 @@ export default defineConfig({
 		open: true,
 		port: 1314,
 		// 选项写法
-		proxy: {
-			'/pag': {
-				target: 'https://cdn.tmui.design',
-				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/api/, '/api')
-			},
-			'/one': {
-				target: 'https://v2.jinrishici.com',
-				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/api/, '/api')
-			},
-			'/api': {
-				target: 'https://lianyi.api.sauou.com',
-				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/api/, '/api')
-			},
-		}
+		// proxy: {
+		// 	'/pag': {
+		// 		target: 'https://cdn.tmui.design',
+		// 		changeOrigin: true,
+		// 		rewrite: (path) => path.replace(/^\/api/, '/api')
+		// 	},
+		// 	'/one': {
+		// 		target: 'https://v2.jinrishici.com',
+		// 		changeOrigin: true,
+		// 		rewrite: (path) => path.replace(/^\/api/, '/api')
+		// 	},
+		// 	'/api': {
+		// 		target: 'https://lianyi.api.sauou.com',
+		// 		changeOrigin: true,
+		// 		rewrite: (path) => path.replace(/^\/api/, '/api')
+		// 	},
+		// }
 	},
 	plugins: [
 		uni(),

@@ -160,7 +160,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     const _computedValue = common_vendor.computed(() => props);
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return common_vendor.e$1({
         a: common_vendor.unref(_computedValue).showAvatar
       }, common_vendor.unref(_computedValue).showAvatar ? {
         b: common_vendor.p({
@@ -242,5 +242,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-c423bcaa"], ["__file", "C:/Users/Pc/Desktop/github/loveSpace/src/tmui/components/tm-cell/tm-cell.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-c423bcaa"], ["__file", "C:/Users/admin/Desktop/github/love-space/src/tmui/components/tm-cell/tm-cell.vue"]]);
 wx.createComponent(Component);
